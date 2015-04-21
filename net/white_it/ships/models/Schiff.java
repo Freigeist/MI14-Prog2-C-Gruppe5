@@ -54,4 +54,8 @@ public abstract class Schiff {
         this.coordY = coordY;
         this.inaktiveRunden = 0;
     }
+
+    public void preTurn() {
+        this.inaktiveRunden--;
+    }
 }
