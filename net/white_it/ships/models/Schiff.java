@@ -54,4 +54,13 @@ public abstract class Schiff {
         this.coordY = coordY;
         this.inaktiveRunden = 0;
     }
+
+    /**
+     * Zugvorbereitung
+     *
+     * @since 1.0
+     */
+    public void preTurn() {
+        this.inaktiveRunden--;
+    }
 }

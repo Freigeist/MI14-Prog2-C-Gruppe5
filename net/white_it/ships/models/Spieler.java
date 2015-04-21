@@ -34,6 +34,8 @@ public class Spieler {
      * @since 1.0
      */
     public void preTurn(){
-
+        for(Schiff s : schiffe){
+            s.preTurn();
+        }
     }
 }
