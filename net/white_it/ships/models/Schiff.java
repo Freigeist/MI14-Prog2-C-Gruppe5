@@ -52,5 +52,6 @@ public abstract class Schiff {
         this.ausrichtung = ausrichtung;
         this.coordX = coordX;
         this.coordY = coordY;
+        this.inaktiveRunden = 0;
     }
 }
