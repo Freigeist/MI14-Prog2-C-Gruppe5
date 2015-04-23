@@ -16,7 +16,7 @@ public class Spieler {
      *
      * @since 1.0
      */
-    private SpielFeld spielFeld;
+    private Spielfeld spielfeld;
 
     /**
      * Die Schiffe des Spielers

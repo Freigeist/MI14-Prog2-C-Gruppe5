@@ -3,7 +3,7 @@ package net.white_it.ships.models;
 /**
  * @author Florian Tenhaken <admin at white-it dot net>
  */
-public class SpielFeld {
+public class Spielfeld {
     /**
      * Koordinatensystem des Spielfeldes
      *
@@ -11,7 +11,7 @@ public class SpielFeld {
      */
     private int[][] coords;
 
-    public SpielFeld(int size) {
+    public Spielfeld(int size) {
         this.coords = new int[size][size];
         
         for(int i = 0; i < size; i ++){
