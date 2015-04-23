@@ -13,6 +13,12 @@ public class SpielFeld {
 
     public SpielFeld(int size) {
         this.coords = new int[size][size];
+        
+        for(int i = 0; i < size; i ++){
+        	for(int j = 0; j < size; j++){
+        		coords = new int[i][j];
+        	}
+        }
     }
 
     /**
