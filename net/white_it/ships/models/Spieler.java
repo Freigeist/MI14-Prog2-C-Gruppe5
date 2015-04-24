@@ -25,6 +25,12 @@ public class Spieler {
      */
     private Schiff[] schiffe;
 
+    /**
+     * Das Feld des Spielers
+     *
+     * @since 2.0
+     */
+    private int[][] feld;
 
     /**
      * Funktion zur Vorbereitung eines Zugs des Spielers, hier werden zum Beispiel
@@ -33,9 +39,15 @@ public class Spieler {
      *
      * @since 1.0
      */
+    
+
     public void preTurn(){
         for(Schiff s : schiffe){
             s.preTurn();
         }
     }
+    
+    
+    
+    
 }

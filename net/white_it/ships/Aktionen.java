@@ -9,7 +9,7 @@ public class Aktionen {
 	 * @since 1.0
 	 */
 	public static void prepareGame(){
-		createPlayer();
+		createPlayer(1);
 		
 	}
 	
@@ -27,7 +27,7 @@ public class Aktionen {
 	 * Methode zum erstellen der Schiffe
 	 * @param zahl1
 	 */
-	public static createShips(int zahl1){
+	public static void createShips(int zahl1){
 		for(int i = 0; i < zahl1; i++){
 			Spieler s = new Spieler();
 		}
