@@ -66,20 +66,17 @@ public class Spielfeld {
 
 
 
-	public void spielfeldAusdrucken() {
-
-
-	}
-
-
+	/*
+	 * Hiermit werden alle erstellten Felder mit "0" gefüllt
+	 */
 	public static void belegeKoordinate(int x, int y) {
-
 		getMatrix();
-
 		feld[x][y] = 0;
-
 	}
-
+	
+	/*
+	 * Hiermit werden Schiffe gesetzt -> Feld wird mit 1 gefüllt
+	 */
 	public void setzeSchiff(int x, int y) {
 
 		getMatrix();
@@ -87,7 +84,12 @@ public class Spielfeld {
 		feld[x][y] = 1;
 
 	}
-
+	
+	/*
+	 * Hiermit wird ein Feld beschossen. 
+	 * Wenn sich hier kein Schiff befindet, wird in das Feld "2" eingetragen -> Getroffenes Wasser
+	 * Wenn sich hier ein Schiff befindet, wird in das Feld "3" eingetragen -> Getroffenes Schiff
+	 */
 	public void beschiesseFeld(int x, int y) {
 
 		getMatrix();
@@ -103,7 +105,9 @@ public class Spielfeld {
 	}
 
 
-
+	/*
+	 * Hier wird geprüft ob sich ein Schiff auf dem Feld befindet. Wenn "1" -> return true
+	 */
 	public boolean istSchiffDa(int x, int y) {
 
 		getMatrix();
@@ -122,10 +126,11 @@ public class Spielfeld {
 
 	}
 
+	/**
+	 * Hiermit können wir auf unser Feld zugreifen
+	 */
 	public static int[][] getMatrix(){
-
 		return feld;
-
 	}
 
 
