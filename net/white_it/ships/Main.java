@@ -21,5 +21,15 @@ public class Main {
 		System.out.println("");
 		test.print();
 
+		/**
+    	   if(test.istSchiffDa(1,2)){
+
+
+    		System.out.println("ist da");
+    	} else {
+    		System.out.println("nicht da");
+
+    	}
+		 */
 	}
 }
