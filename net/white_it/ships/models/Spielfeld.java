@@ -26,8 +26,6 @@ public class Spielfeld {
 
 	public Spielfeld() {
 
-
-
 	}
 
 
@@ -44,15 +42,13 @@ public class Spielfeld {
 
 	public void feldErstellen(int groesse){
 
-
-
-		int[][] feld = new int[groesse][groesse];
+		feld = new int[groesse][groesse];
 
 		for (int y=0;y<feld.length;y++){ // senkrecht
 
 			for (int x=0;x<feld.length;x++){ //waagerecht
 
-				feld[x][y] = 0;
+				belegeKoordinate(x,y);
 
 			}
 
@@ -70,21 +66,21 @@ public class Spielfeld {
 	 * Hiermit werden alle erstellten Felder mit "0" gefüllt
 	 */
 	public static void belegeKoordinate(int x, int y) {
-		getMatrix();
+		getFeld();
 		feld[x][y] = 0;
 	}
-	
+
 	/*
 	 * Hiermit werden Schiffe gesetzt -> Feld wird mit 1 gefüllt
 	 */
 	public void setzeSchiff(int x, int y) {
 
-		getMatrix();
+		getFeld();
 
 		feld[x][y] = 1;
 
 	}
-	
+
 	/*
 	 * Hiermit wird ein Feld beschossen. 
 	 * Wenn sich hier kein Schiff befindet, wird in das Feld "2" eingetragen -> Getroffenes Wasser
@@ -92,7 +88,7 @@ public class Spielfeld {
 	 */
 	public void beschiesseFeld(int x, int y) {
 
-		getMatrix();
+		getFeld();
 
 		if(feld[x][y] == 0) {
 
@@ -110,7 +106,7 @@ public class Spielfeld {
 	 */
 	public boolean istSchiffDa(int x, int y) {
 
-		getMatrix();
+		getFeld();
 
 		if(feld[x][y] == 1) {
 
@@ -127,9 +123,9 @@ public class Spielfeld {
 	}
 
 	/**
-	 * Hiermit können wir auf unser Feld zugreifen
+	 * Hiermit k�nnen wir auf unser Feld zugreifen
 	 */
-	public static int[][] getMatrix(){
+	public static int[][] getFeld(){
 		return feld;
 	}
 
@@ -144,16 +140,14 @@ public class Spielfeld {
 
 	/**
 
-	 * Gibt das Feld auf der Kommandozeile aus
+	 * Gibt das Spielfeld auf der Kommandozeile aus
 
 	 */
 
 	public void print(){
-
 		System.out.println("    0  1  2  3  4");
 
 		for(int y = 0; y < feld.length; y++){
-
 			System.out.print(" "+y+" ");
 
 			for(int x = 0; x < feld.length; x++){

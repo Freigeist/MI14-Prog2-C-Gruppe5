@@ -12,7 +12,6 @@ public class Main {
 		test.feldErstellen(5);
 		test.print();
 		
-		
 		test.setzeSchiff(2,4);
 		test.setzeSchiff(0,1);
 		
