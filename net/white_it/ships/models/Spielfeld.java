@@ -18,7 +18,32 @@ public class SpielFeld {
     /**
      * Gibt das Feld auf der Kommandozeile aus
      */
-    public void print(){
+    public void print() {
+        int length = coords.length;
+        int yCounter = 1;
+        char c;
 
+        for (int x = 0; x <= length; x++) {
+            if (x == 0) {
+                System.out.print((length > 9 ? " " : "") + " |");
+                for (int y = 1; y <= length; y++) {
+                    c = (char) (64 + y);
+                    if (y == length)
+                        System.out.print(c + "\n");
+                    else
+                        System.out.print(c + "|");
+                }
+            } else {
+                //System.out.print((length > 9 ? "-" : "") + "-+");
+                //for (int y = 1; y < length; y++)
+                //    System.out.print("-+");
+                System.out.print((length > 9 && x < 10 ? " " : "") + (yCounter++) + "|");
+
+                for (int y = 1; y < length; y++)
+                    System.out.print(" |");
+
+                System.out.print("\n");
+            }
+        }
     }
 }
