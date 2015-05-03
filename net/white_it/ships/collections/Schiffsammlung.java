@@ -24,4 +24,21 @@ public class Schiffsammlung {
         s[schiffe.length] = schiff;
         this.schiffe = s;
     }
+
+    @Override
+    public String toString() {
+        String ret = "[Schiffsammlung=";
+        int len = this.schiffe.length;
+
+        for(int i = 0; i < len-1;i++){
+            ret += this.schiffe[i].toString() + ",";
+        }
+
+        if(len > 0)
+            ret += this.schiffe[len-1].toString();
+
+        ret += "]";
+
+        return ret;
+    }
 }

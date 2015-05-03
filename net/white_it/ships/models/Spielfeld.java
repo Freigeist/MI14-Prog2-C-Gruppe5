@@ -41,11 +41,39 @@ public class Spielfeld {
             } else {
                 System.out.print((length > 9 && x < 10 ? " " : "") + (yCounter++) + "|");
 
-                for (int y = 1; y < length; y++)
-                    System.out.print((x + y) + "|");
+                for (int y = 0; y < length; y++) {
+                    System.out.print(getPos(x-1,y,own));
+
+                    if(y < length-1)
+                        System.out.print("|");
+                }
 
                 System.out.print("\n");
             }
+        }
+    }
+
+    public int checkCoord(int x, int y){
+        int ret = Integer.MIN_VALUE, check;
+        for(Schiff s : this.schiffe.getSchiffe()){
+            check = s.checkCoord(x,y);
+            if(ret < check)
+                ret = check;
+        }
+        return ret;
+    }
+
+    public String getPos(int x, int y, boolean own){
+        int check = checkCoord(x,y);
+        switch (check){
+            case -1:
+                return " ";
+            case 0:
+                return (own ? "S" : " ");
+            case 1:
+                return "x";
+            default:
+                return "";
         }
     }
 }

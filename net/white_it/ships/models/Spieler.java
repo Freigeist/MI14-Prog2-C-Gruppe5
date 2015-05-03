@@ -59,6 +59,10 @@ public class Spieler {
         return name;
     }
 
+    public Schiffsammlung getSchiffe() {
+        return schiffe;
+    }
+
     public void printSpielfeld(boolean own){
         this.spielfeld.print(own);
     }
