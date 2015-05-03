@@ -5,7 +5,7 @@ package net.white_it.ships.models;
  */
 public class Fregatte extends Schiff {
 
-    public Fregatte(int laenge, boolean ausrichtung, int coordX, int coordY) {
-        super(laenge, ausrichtung, coordX, coordY);
+    public Fregatte(boolean ausrichtung, int coordX, int coordY) {
+        super(2, ausrichtung, coordX, coordY);
     }
 }

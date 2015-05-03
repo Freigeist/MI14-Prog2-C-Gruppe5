@@ -53,6 +53,11 @@ public abstract class Schiff {
         this.coordX = coordX;
         this.coordY = coordY;
         this.inaktiveRunden = 0;
+
+        this.treffer = new boolean[laenge];
+        for (int i = 0; i < laenge; i++) {
+            this.treffer[i] = false;
+        }
     }
 
     /**
@@ -61,6 +66,44 @@ public abstract class Schiff {
      * @since 1.0
      */
     public void preTurn() {
-        this.inaktiveRunden--;
+        if (this.inaktiveRunden > 0)
+            this.inaktiveRunden--;
+    }
+
+    public boolean isActive() {
+        return this.inaktiveRunden == 0;
+    }
+
+    public boolean isAlive() {
+        for (boolean b : this.treffer) {
+            if (!b) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int checkCoord(int x, int y) {
+        if (!this.ausrichtung) {
+            if (y != this.coordY) {
+                return -1;
+            }
+
+            if (x >= this.coordX && x < this.coordX + this.laenge) {
+                return (this.treffer[x - this.coordX] ? 1 : 0);
+            } else {
+                return -1;
+            }
+        } else {
+            if (x != this.coordX) {
+                return -1;
+            }
+
+            if (y >= this.coordY && y < this.coordY + this.laenge) {
+                return (this.treffer[y - this.coordY] ? 1 : 0);
+            } else {
+                return -1;
+            }
+        }
     }
 }

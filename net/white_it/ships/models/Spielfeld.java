@@ -1,5 +1,7 @@
 package net.white_it.ships.models;
 
+import net.white_it.ships.collections.Schiffsammlung;
+
 /**
  * @author Florian Tenhaken <admin at white-it dot net>
  */
@@ -9,16 +11,19 @@ public class Spielfeld {
      *
      * @since 1.0
      */
-    private int[][] coords;
+    private boolean[][] coords;
 
-    public Spielfeld(int size) {
-        this.coords = new int[size][size];
+    private Schiffsammlung schiffe;
+
+    public Spielfeld(int size, Schiffsammlung schiffe) {
+        this.coords = new boolean[size][size];
+        this.schiffe = schiffe;
     }
 
     /**
      * Gibt das Feld auf der Kommandozeile aus
      */
-    public void print() {
+    public void print(boolean own) {
         int length = coords.length;
         int yCounter = 1;
         char c;
@@ -34,13 +39,10 @@ public class Spielfeld {
                         System.out.print(c + "|");
                 }
             } else {
-                //System.out.print((length > 9 ? "-" : "") + "-+");
-                //for (int y = 1; y < length; y++)
-                //    System.out.print("-+");
                 System.out.print((length > 9 && x < 10 ? " " : "") + (yCounter++) + "|");
 
                 for (int y = 1; y < length; y++)
-                    System.out.print(" |");
+                    System.out.print((x + y) + "|");
 
                 System.out.print("\n");
             }
