@@ -5,6 +5,6 @@ package net.white_it.ships.models;
  */
 public class Korvette extends Schiff {
     public Korvette(boolean ausrichtung, int coordX, int coordY) {
-        super(2, ausrichtung, coordX, coordY);
+        super(3, 1, 1, ausrichtung, coordX, coordY);
     }
 }

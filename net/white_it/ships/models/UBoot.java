@@ -5,6 +5,6 @@ package net.white_it.ships.models;
  */
 public class UBoot extends Schiff {
     public UBoot(boolean ausrichtung, int coordX, int coordY) {
-        super(2, ausrichtung, coordX, coordY);
+        super(2, 1, 1, ausrichtung, coordX, coordY);
     }
 }
