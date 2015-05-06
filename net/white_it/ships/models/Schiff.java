@@ -113,6 +113,30 @@ public abstract class Schiff {
         }
     }
 
+    public boolean checkCollision(int x, int y) {
+        if (!this.ausrichtung) {
+            if (y < this.coordY - 1 || y > this.coordY + 1) {
+                return false;
+            }
+
+            if (x >= this.coordX - 1 && x <= this.coordX + this.laenge + 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (x < this.coordX - 1 || x > this.coordX + 1) {
+                return false;
+            }
+
+            if (y >= this.coordY - 1 && y <= this.coordY + this.laenge + 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     /**
      * Returns a string representation of the object. In general, the
      * {@code toString} method returns a string that
@@ -139,7 +163,7 @@ public abstract class Schiff {
         return "[" + this.getClass().getSimpleName() + "=" + coordX + "," + coordY + "]";
     }
 
-    public void hasFired(){
+    public void hasFired() {
         this.inaktiveRunden = this.wiederNutzbarNach + 1; //aktive Runde wird mitgezählt
     }
 }
