@@ -21,6 +21,12 @@ public class Aktionen {
             spielfeldgroesse = IO.getInt();
         } while (spielfeldgroesse < 5 || spielfeldgroesse > 20);
 
+        int maxShips = Math.round(spielfeldgroesse / 3);
+        int maxUBoot = (int)Math.floor(spielfeldgroesse/2);
+        int maxKorvette = (int)Math.floor(spielfeldgroesse/3);
+        int maxFregatte = (int)Math.floor(spielfeldgroesse/4);
+        int maxZerstoerer = (int)Math.floor(spielfeldgroesse/5);
+
         System.out.println("Es werden " + spielerzahl + " Spieler auf Feldern von " + spielfeldgroesse + "x" + spielfeldgroesse + " spielen.");
     }
 }
