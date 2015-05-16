@@ -1,8 +1,10 @@
 package net.white_it.ships;
 
 import net.white_it.ships.collections.GameObjects;
+import net.white_it.ships.exceptions.NoValidCoordinateException;
 import net.white_it.ships.helper.IO;
 import net.white_it.ships.models.Spieler;
+import net.white_it.ships.models.Spielfeld;
 
 public class Aktionen {
     /**
@@ -46,7 +48,7 @@ public class Aktionen {
                 System.out.print("Wie viele UBoote sollen teilnehmen? [0-" + (Counter < maxUBoot ? Counter : maxUBoot) + "]: ");
                 do {
                     UBoote = IO.getInt();
-                } while (UBoote <= Counter || UBoote <= maxUBoot || UBoote >= 0);
+                } while (UBoote > Counter || UBoote > maxUBoot || UBoote < 0);
                 Counter -= UBoote;
             }
 
@@ -56,7 +58,7 @@ public class Aktionen {
                 System.out.print("Wie viele Korvetten sollen teilnehmen? [0-" + (Counter < maxKorvette ? Counter : maxKorvette) + "]: ");
                 do {
                     Korvetten = IO.getInt();
-                } while (Korvetten <= Counter || Korvetten <= maxKorvette || Korvetten >= 0);
+                } while (Korvetten > Counter || Korvetten > maxKorvette || Korvetten < 0);
                 Counter -= Korvetten;
             }
 
@@ -66,7 +68,7 @@ public class Aktionen {
                 System.out.print("Wie viele Fregatten sollen teilnehmen? [0-" + (Counter < maxFregatte ? Counter : maxFregatte) + "]: ");
                 do {
                     Fregatten = IO.getInt();
-                } while (Fregatten <= Counter || Fregatten <= maxFregatte || Fregatten >= 0);
+                } while (Fregatten > Counter || Fregatten > maxFregatte || Fregatten < 0);
                 Counter -= Fregatten;
             }
 
@@ -76,11 +78,11 @@ public class Aktionen {
                 System.out.print("Wie viele Zerstoerer sollen teilnehmen? [0-" + (Counter < maxZerstoerer ? Counter : maxZerstoerer) + "]: ");
                 do {
                     Zerstoerer = IO.getInt();
-                } while (Zerstoerer <= Counter || Zerstoerer <= maxZerstoerer || Zerstoerer >= 0);
+                } while (Zerstoerer > Counter || Zerstoerer > maxZerstoerer || Zerstoerer < 0);
                 Counter -= Zerstoerer;
             }
 
-            if(Counter > 0) {
+            if (Counter > 0) {
                 System.out.println("Sie haben noch " + Counter + " von " + maxShips + "Schiffen übrig,\n" +
                         "deren Typen sie nicht gewaehlt haben, moechten sie wirklich fortfahren? [j/n]: ");
                 do {
@@ -90,6 +92,8 @@ public class Aktionen {
             } else if (Counter == maxShips) {
                 System.out.println("Es wurde keine Schiffe gewaehlt, die Auswahl wird wiederholt!");
                 accepted = false;
+            } else {
+                accepted = true;
             }
         } while (!accepted);
 
@@ -103,13 +107,45 @@ public class Aktionen {
         System.out.println("\tZerstoerer: " + Zerstoerer);
 
         String name;
-        for(int i = 1; i <= spielerzahl; i++){
+        for (int i = 1; i <= spielerzahl; i++) {
             System.out.println("Bitte geben sie den Namen für Spieler" + i + " ein.");
             do {
                 System.out.print("Name (min. 3 & max. 20 Zeichen): ");
                 name = IO.getString();
             } while (name.length() < 3 || name.length() > 20);
-            GameObjects.getSpieler().push(new Spieler(name,spielfeldgroesse));
+            GameObjects.getSpieler().push(new Spieler(name, spielfeldgroesse));
         }
+
+        Spieler S;
+        boolean isValid;
+        int[] coord = new int[0];
+        for (int i = 0; i < spielerzahl; i++) {
+            Spieler spieler = GameObjects.getSpieler().getSpielerByKey(i);
+            System.out.println("Spieler " + (i+1) + "ist nun dran seine Schiffe zu setzen.");
+            System.out.println("Eingabe zum fortfahren drücken...");
+            IO.waitForReturn();
+
+            do {
+                accepted = true;
+                for(int x = 0; x<UBoote; x++){
+                    spieler.printSpielfeld(true);
+                    System.out.println("An welcher Stelle soll ein Uboot plaziert werdern?");
+                    System.out.print("Position [z.B. A1 oder auch 1A]: ");
+                    do {
+                        isValid = false;
+                        check = IO.getString();
+                        try {
+                            coord = Spielfeld.coordToXY(check);
+                            isValid = true;
+                        } catch (NoValidCoordinateException e) {
+                            e.printStackTrace();
+                        }
+                    } while (!isValid);
+                    System.out.println("x:" + coord[0] + " y:" + coord[1]);
+                }
+            } while (!accepted);
+        }
+
+
     }
 }

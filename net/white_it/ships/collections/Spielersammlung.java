@@ -3,9 +3,6 @@ package net.white_it.ships.collections;
 import net.white_it.ships.exceptions.NoPlayerException;
 import net.white_it.ships.models.Spieler;
 
-/**
- * @author Florian Tenhaken <admin at white-it dot net>
- */
 public class Spielersammlung {
     private Spieler[] spieler;
     private int activePlayer = -1;
@@ -34,6 +31,10 @@ public class Spielersammlung {
         if(activePlayer >= spieler.length)
             activePlayer = 0;
         return this.spieler[activePlayer];
+    }
+
+    public Spieler getSpielerByKey(int key){
+        return this.spieler[key];
     }
 
     public void printPlayerList(boolean excludeActivePlayer){

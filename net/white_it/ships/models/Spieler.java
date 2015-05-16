@@ -2,9 +2,6 @@ package net.white_it.ships.models;
 
 import net.white_it.ships.collections.Schiffsammlung;
 
-/**
- * @author Florian Tenhaken <admin at white-it dot net>
- */
 public class Spieler {
     /**
      * Name des Spielers
@@ -35,7 +32,7 @@ public class Spieler {
 
     /**
      * Funktion zur Vorbereitung eines Zugs des Spielers, hier werden zum Beispiel
-     * die @see Schiff::inaktiveRunden Counter runtergezählt insofern sie nicht 0
+     * die @see Schiff#inaktiveRunden Counter runtergezählt insofern sie nicht 0
      * sind.
      *
      * @since 1.0
@@ -55,14 +52,25 @@ public class Spieler {
         return false;
     }
 
+    /**
+     * Gibt den Namen des Spielers zurück
+     * @return Name des Spielers
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gibt die @see Schiffssammlung des Spielers zurück
+     * @return Schiffssammlung des Spielers
+     */
     public Schiffsammlung getSchiffe() {
         return schiffe;
     }
 
+    /**
+     * @see net.white_it.ships.models.Spielfeld#print(boolean)
+     */
     public void printSpielfeld(boolean own){
         this.spielfeld.print(own);
     }

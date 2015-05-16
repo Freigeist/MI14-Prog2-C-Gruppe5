@@ -1,8 +1,5 @@
 package net.white_it.ships.models;
 
-/**
- * @author Florian Tenhaken <admin at white-it dot net>
- */
 public abstract class Schiff {
 
     /**
@@ -90,17 +87,20 @@ public abstract class Schiff {
     }
 
     public int checkCoord(int x, int y) {
-        if (!this.ausrichtung) {
+        if (!this.ausrichtung) { // Schiff ist horizontal
             if (y != this.coordY) {
+                // Wenn das Schiff horizontal ist und die übergebene Y Koordinate nicht der
+                // Y Koordinate des Schiffs entspricht, ist eine weitere Überprüfung hinfällig
                 return -1;
             }
 
             if (x >= this.coordX && x < this.coordX + this.laenge) {
+                // Ist das Schiff an der ursprünglichen X Koordinate
                 return (this.treffer[x - this.coordX] ? 1 : 0);
             } else {
                 return -1;
             }
-        } else {
+        } else { // Schiff ist vertikal
             if (x != this.coordX) {
                 return -1;
             }
@@ -114,26 +114,23 @@ public abstract class Schiff {
     }
 
     public boolean checkCollision(int x, int y) {
-        if (!this.ausrichtung) {
+        if (!this.ausrichtung) { // Schiff ist horizontal
             if (y < this.coordY - 1 || y > this.coordY + 1) {
+                // Belegt das Schiff auf dieser Y Koordinate bzw. 1 darüber oder darunter Platz?
+                // Wenn nicht ist eine weitere Prüfung sinnlos.
                 return false;
             }
 
-            if (x >= this.coordX - 1 && x <= this.coordX + this.laenge + 1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+            // Wenn die Y Koordinate zutrifft, prüfe ob das Schiff auf der X Koordinate
+            // den übergebenen Platz einnimmt, prüfe den Bereich von X-1 bis X+Schifflänge
+            // Blockiert das Schiff gib true zurück, anderenfalls false
+            return (x >= this.coordX - 1 && x <= this.coordX + this.laenge + 1);
+        } else { // Schiff ist vertikal, Code hier ist nur Achsentechnisch vertauscht
             if (x < this.coordX - 1 || x > this.coordX + 1) {
                 return false;
             }
 
-            if (y >= this.coordY - 1 && y <= this.coordY + this.laenge + 1) {
-                return true;
-            } else {
-                return false;
-            }
+            return (y >= this.coordY - 1 && y <= this.coordY + this.laenge + 1);
         }
     }
 

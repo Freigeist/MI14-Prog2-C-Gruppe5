@@ -1,11 +1,9 @@
 package net.white_it.ships.helper;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
- * @author Florian Tenhaken <admin at white-it dot net>
- */
 public class IO {
     /**
      * BufferedReader Object zum Einlesen von Eingaben aus der Kommandozeile
@@ -36,17 +34,25 @@ public class IO {
     public static int getInt() {
         int num = 0;
         int err = 1;
+        String zeile = "";
         do {
             try {
-                String zeile = in.readLine();
+                zeile = in.readLine();
                 num = Integer.parseInt(zeile);
                 err = 0;
             } catch (Exception e) {
-                System.err.println("An error occurred: " + e.getMessage());
+                System.out.println("'" +zeile + "' is not a valid number.");
             }
         }
         while (err == 1);
 
         return num;
+    }
+
+    public static void waitForReturn() {
+        try {
+            System.in.read();
+        } catch (IOException ignored) {
+        }
     }
 }
