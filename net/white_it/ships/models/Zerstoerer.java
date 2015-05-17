@@ -4,7 +4,7 @@ public class Zerstoerer extends Schiff {
 
     public final static int size = 5;
 
-    public Zerstoerer(boolean ausrichtung, int coordX, int coordY) {
-        super(Zerstoerer.size, 3, 3, ausrichtung, coordX, coordY);
+    public Zerstoerer(boolean isVertical, int coordX, int coordY) {
+        super(Zerstoerer.size, 3, 3, isVertical, coordX, coordY);
     }
 }

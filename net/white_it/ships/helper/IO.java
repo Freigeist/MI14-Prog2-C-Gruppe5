@@ -50,9 +50,7 @@ public class IO {
     }
 
     public static void waitForReturn() {
-        try {
-            System.in.read();
-        } catch (IOException ignored) {
-        }
+        System.out.println("Eingabe zum fortfahren drücken...");
+        IO.getString();
     }
 }

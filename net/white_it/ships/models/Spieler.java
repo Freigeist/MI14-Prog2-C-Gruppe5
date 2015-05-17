@@ -75,6 +75,10 @@ public class Spieler {
         this.spielfeld.print(own);
     }
 
+    public boolean tryPlaceShip(boolean isVertical, int size, int x, int y){
+        return this.spielfeld.tryPlaceShip(isVertical, size, x, y);
+    }
+
     /**
      * Returns a string representation of the object. In general, the
      * {@code toString} method returns a string that

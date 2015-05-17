@@ -39,26 +39,26 @@ public class Spielfeld {
      */
     public void print(boolean own) {
         int length = coords.length;
-        int yCounter = 1;
+        int xCounter = 1;
         char c;
 
-        for (int x = 0; x <= length; x++) {
-            if (x == 0) {
+        for (int y = 0; y <= length; y++) {
+            if (y == 0) {
                 System.out.print((length > 9 ? " " : "") + " |");
-                for (int y = 1; y <= length; y++) {
-                    c = (char) (64 + y); //ASCII A = 65, B = 66, usw.
-                    if (y == length)
+                for (int x = 1; x <= length; x++) {
+                    c = (char) (64 + x); //ASCII A = 65, B = 66, usw.
+                    if (x == length)
                         System.out.print(c + "\n");
                     else
                         System.out.print(c + "|");
                 }
             } else {
-                System.out.print((length > 9 && x < 10 ? " " : "") + (yCounter++) + "|");
+                System.out.print((length > 9 && y < 10 ? " " : "") + (xCounter++) + "|");
 
-                for (int y = 0; y < length; y++) {
-                    System.out.print(getPos(x - 1, y, own));
+                for (int x = 0; x < length; x++) {
+                    System.out.print(getPos(x, y - 1, own));
 
-                    if (y < length - 1)
+                    if (x < length - 1)
                         System.out.print("|");
                 }
 
@@ -130,7 +130,7 @@ public class Spielfeld {
      * Wandelt aus Buchstaben und Zahlen bestehende Koordinaten in Zahlen um,
      * die weiter genutzt werden können. Das Format spielt keine Rolle "A1", "1A", "1a" oder
      * aber auch "A,1" oder "1,A" o.ä. sind valide Angaben, wichtig ist das eine Zahl
-     * vorhanden ist und genau einen Buchstabe von A-Z
+     * vorhanden ist und genau ein Buchstabe von A-Z
      *
      * @param coord String der Koordinaten
      * @return int[] -> Index 0 = y; Index 1 = y
@@ -159,10 +159,10 @@ public class Spielfeld {
         return new int[]{x, y};
     }
 
-    public boolean tryPlaceShip(boolean ausrichtung, int size, int x, int y){
+    public boolean tryPlaceShip(boolean isVertical, int size, int x, int y){
         boolean ret = true;
-        if(ausrichtung){// Schiff ist horizontal
-            if(x < 0 || x >= this.coords.length || x+size >= this.coords.length) {
+        if(!isVertical){// Schiff ist horizontal
+            if(x < 0 || x >= this.coords.length || x+size-1 >= this.coords.length) {
                 //Schiff würde auf der X Achse über den Feldrand gehen, werfe IndexOutOfBoundsException
                 throw new IndexOutOfBoundsException();
             }
@@ -183,7 +183,7 @@ public class Spielfeld {
                 }
             }
         } else {// Schiff ist vertikal
-            if(y < 0 || y >= this.coords.length || y+size >= this.coords.length) {
+            if(y < 0 || y >= this.coords.length || y+size-1 >= this.coords.length) {
                 //Schiff würde auf der Y Achse über den Feldrand gehen, werfe IndexOutOfBoundsException
                 throw new IndexOutOfBoundsException();
             }

@@ -4,7 +4,7 @@ public class Fregatte extends Schiff {
 
     public final static int size = 4;
 
-    public Fregatte(boolean ausrichtung, int coordX, int coordY) {
-        super(Fregatte.size, 2, 2, ausrichtung, coordX, coordY);
+    public Fregatte(boolean isVertical, int coordX, int coordY) {
+        super(Fregatte.size, 2, 2, isVertical, coordX, coordY);
     }
 }
