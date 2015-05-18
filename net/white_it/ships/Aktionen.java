@@ -2,6 +2,7 @@ package net.white_it.ships;
 
 import net.white_it.ships.collections.GameObjects;
 import net.white_it.ships.collections.Schiffsammlung;
+import net.white_it.ships.collections.Spielersammlung;
 import net.white_it.ships.exceptions.AbortedByUserException;
 import net.white_it.ships.exceptions.NoValidCoordinateException;
 import net.white_it.ships.helper.IO;
@@ -118,8 +119,8 @@ public class Aktionen {
         }
 
         System.out.println("\n\nNun folgt die Plazierung der Schiffe, bei der die Spieler nacheinander\n" +
-                "ihre Schiffe auf dem Spielfeld platzieren können. Der Spieler kann jederzeit durch die\n" +
-                "Eingabe von 'reset' mit der Platzierung von vorne beginnen.\n");
+                "ihre Schiffe auf dem Spielfeld platzieren können. Der Spieler kann jederzeit\n" +
+                "durch die Eingabe von 'reset' mit der Platzierung von vorne beginnen.\n");
 
         Spieler spieler;
         Schiffsammlung schiffe;
@@ -136,22 +137,22 @@ public class Aktionen {
                 schiffe.clear();
                 ZerstoererLoop:
                 for (int x = 0; x < anzahlZerstoerer; x++) {
-                    spieler.printSpielfeld(true);
+                    spieler.getSpielfeld().print(true);
                     System.out.println("An welcher Stelle soll ein Zerstoerer plaziert werdern?");
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords();
-                            isVertical = _retriveAusrichtung();
+                            coord = _retriveCoords(true);
+                            isVertical = _retriveAusrichtung(true);
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break ZerstoererLoop;
                         }
                         try {
-                            if (spieler.tryPlaceShip(isVertical, Zerstoerer.size, coord[0], coord[1])) {
+                            if (spieler.getSpielfeld().tryPlaceShip(isVertical, Zerstoerer.size, coord[0], coord[1])) {
                                 schiffe.push(new Zerstoerer(isVertical, coord[0], coord[1]));
                                 isValid = true;
-                            }else {
+                            } else {
                                 System.out.println("Das Schiff kann nicht direkt an ein anderes grenzen!");
                             }
                         } catch (IndexOutOfBoundsException ignored) {
@@ -162,22 +163,22 @@ public class Aktionen {
 
                 FregattenLoop:
                 for (int x = 0; x < anzahlFregatten && accepted; x++) {
-                    spieler.printSpielfeld(true);
+                    spieler.getSpielfeld().print(true);
                     System.out.println("An welcher Stelle soll eine Fregatte plaziert werdern?");
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords();
-                            isVertical = _retriveAusrichtung();
+                            coord = _retriveCoords(true);
+                            isVertical = _retriveAusrichtung(true);
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break FregattenLoop;
                         }
                         try {
-                            if (spieler.tryPlaceShip(isVertical, Fregatte.size, coord[0], coord[1])) {
+                            if (spieler.getSpielfeld().tryPlaceShip(isVertical, Fregatte.size, coord[0], coord[1])) {
                                 schiffe.push(new Fregatte(isVertical, coord[0], coord[1]));
                                 isValid = true;
-                            }else {
+                            } else {
                                 System.out.println("Das Schiff kann nicht direkt an ein anderes grenzen!");
                             }
                         } catch (IndexOutOfBoundsException ignored) {
@@ -188,22 +189,22 @@ public class Aktionen {
 
                 KorvettenLoop:
                 for (int x = 0; x < anzahlKorvetten && accepted; x++) {
-                    spieler.printSpielfeld(true);
+                    spieler.getSpielfeld().print(true);
                     System.out.println("An welcher Stelle soll eine Korvette plaziert werdern?");
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords();
-                            isVertical = _retriveAusrichtung();
+                            coord = _retriveCoords(true);
+                            isVertical = _retriveAusrichtung(true);
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break KorvettenLoop;
                         }
                         try {
-                            if (spieler.tryPlaceShip(isVertical, Korvette.size, coord[0], coord[1])) {
+                            if (spieler.getSpielfeld().tryPlaceShip(isVertical, Korvette.size, coord[0], coord[1])) {
                                 schiffe.push(new Korvette(isVertical, coord[0], coord[1]));
                                 isValid = true;
-                            }else {
+                            } else {
                                 System.out.println("Das Schiff kann nicht direkt an ein anderes grenzen!");
                             }
                         } catch (IndexOutOfBoundsException ignored) {
@@ -214,19 +215,19 @@ public class Aktionen {
 
                 UBootLoop:
                 for (int x = 0; x < anzahlUBoote && accepted; x++) {
-                    spieler.printSpielfeld(true);
+                    spieler.getSpielfeld().print(true);
                     System.out.println("An welcher Stelle soll ein Uboot plaziert werdern?");
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords();
-                            isVertical = _retriveAusrichtung();
+                            coord = _retriveCoords(true);
+                            isVertical = _retriveAusrichtung(true);
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break UBootLoop;
                         }
                         try {
-                            if (spieler.tryPlaceShip(isVertical, UBoot.size, coord[0], coord[1])) {
+                            if (spieler.getSpielfeld().tryPlaceShip(isVertical, UBoot.size, coord[0], coord[1])) {
                                 schiffe.push(new UBoot(isVertical, coord[0], coord[1]));
                                 isValid = true;
                             } else {
@@ -238,8 +239,8 @@ public class Aktionen {
                     } while (!isValid);
                 }
 
-                if(accepted) {
-                    spieler.printSpielfeld(true);
+                if (accepted) {
+                    spieler.getSpielfeld().print(true);
                     System.out.print("\nDies waere ihr Spielfeld, möchten sie das setzen wiederholen? [j/n]: ");
                     do {
                         isValid = false;
@@ -252,8 +253,101 @@ public class Aktionen {
                 }
             } while (!accepted);
         }
+    }
 
+    public static void gameLoop() {
+        Spielersammlung spieler = GameObjects.getSpieler();
 
+        Spieler prevPlayer;
+        Spieler activePlayer = null;
+        Spieler enemyPlayer;
+
+        Schiff activeShip;
+
+        boolean isVertical;
+
+        int inputI;
+        int[] coords;
+
+        while (true) {
+            prevPlayer = activePlayer;
+
+            do {
+                activePlayer = spieler.getNext();
+            } while (!activePlayer.isAlive() && activePlayer != prevPlayer);
+
+            if (activePlayer == prevPlayer) {
+                System.out.println("'" + activePlayer.getName() + "' ist der letzte lebende Spieler und hat damit gewonnen!");
+                break;
+            }
+
+            activePlayer.preTurn();
+
+            if (activePlayer.hasActiveShips()) {
+                System.out.println("'" + activePlayer.getName() + "' ist nun am Zug!");
+
+                IO.waitForReturn();
+
+                while (true) {
+                    spieler.printPlayerList(true, true);
+                    System.out.print("\nBitte wählen sie den Spieler den sie angreifen wollen: ");
+                    inputI = IO.getInt();
+                    try {
+                        enemyPlayer = spieler.getSpielerByKey(inputI);
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                        enemyPlayer = null;
+                    }
+                    if (enemyPlayer == null) {
+                        System.out.println("Keinen gültigen Spieler gewählt!\n");
+                    } else if (enemyPlayer == activePlayer) {
+                        System.out.println("Sie haben sich selbst gewählt!\n");
+                    } else if (!enemyPlayer.isAlive()) {
+                        System.out.println("Dieser Spieler ist bereits ausgeschieden!\n");
+                    } else {
+                        System.out.println("");
+                        break;
+                    }
+                }
+
+                while (true) {
+                    activePlayer.getSchiffe().printShipList();
+                    System.out.print("Bitte wählen sie das Schiff mit dem sie schießen wollen: ");
+                    inputI = IO.getInt();
+                    try {
+                        activeShip = activePlayer.getSchiffe().getShipByKey(inputI);
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                        activeShip = null;
+                    }
+                    if (activeShip == null) {
+                        System.out.println("Keinen gültiges Schiff gewählt!\n");
+                    } else if (!activeShip.isActive()) {
+                        System.out.println("Dieses Schiff ist noch inaktiv!\n");
+                    } else if (!activeShip.isAlive()) {
+                        System.out.println("Dieses Schiff ist gesunken!\n");
+                    } else {
+                        System.out.println("");
+                        break;
+                    }
+                }
+
+                enemyPlayer.getSpielfeld().print(false);
+                System.out.println("Wohin möchten sie schießen?");
+                coords = _retriveCoords(false);
+
+                if (activeShip.getSchussbreite() > 1) {
+                    System.out.println("Möchten sie horizontal oder vertikal schießen?");
+                    isVertical = _retriveAusrichtung(false);
+                } else {
+                    isVertical = false;
+                }
+
+                enemyPlayer.getSpielfeld().fire(coords[0], coords[1], activeShip.getSchussbreite(), isVertical);
+                activeShip.hasFired();
+            } else {
+                System.out.println("\n'" + activePlayer.getName() + "' muss diese Runde aussetzen, da keine aktiven\n" +
+                        "Schiffe vorhanden sind und nicht geschossen werden kann!\n");
+            }
+        }
     }
 
     /**
@@ -262,17 +356,17 @@ public class Aktionen {
      * @return
      * @throws AbortedByUserException
      */
-    private static int[] _retriveCoords() throws AbortedByUserException {
+    private static int[] _retriveCoords(boolean allowReset) throws AbortedByUserException {
         boolean isValid;
         String check;
         int[] coord = new int[0];
 
-        System.out.print("Position [z.B. A1 oder auch 1A oder 'reset']: ");
+        System.out.print("Position [z.B. A1 oder auch 1A" + (allowReset ? " oder 'reset'" : "") + "]: ");
 
         do {
             isValid = false;
             check = IO.getString();
-            if (check.equalsIgnoreCase("reset")) {
+            if (allowReset && check.equalsIgnoreCase("reset")) {
                 throw new AbortedByUserException();
             }
             try {
@@ -286,16 +380,22 @@ public class Aktionen {
         return coord;
     }
 
-    private static boolean _retriveAusrichtung() throws AbortedByUserException {
+    /**
+     * Weitere Funktion zur Vermeidung von unnötigen doppelten Code
+     *
+     * @return
+     * @throws AbortedByUserException
+     */
+    private static boolean _retriveAusrichtung(boolean allowReset) throws AbortedByUserException {
         boolean isValid, ret = false;
         String check;
 
-        System.out.print("Ausrichtung [h/v oder 'reset']: ");
+        System.out.print("Ausrichtung [h/v" + (allowReset ? " oder 'reset'" : "") + "]: ");
 
         do {
             isValid = false;
             check = IO.getString();
-            if (check.equalsIgnoreCase("reset")) {
+            if (allowReset && check.equalsIgnoreCase("reset")) {
                 throw new AbortedByUserException();
             }
             if (check.matches("[hHvV]")) {

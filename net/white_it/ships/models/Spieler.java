@@ -52,6 +52,15 @@ public class Spieler {
         return false;
     }
 
+    public boolean hasActiveShips(){
+        for (Schiff s : this.schiffe.getSchiffe()){
+            if(s.isActive() && s.isAlive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Gibt den Namen des Spielers zurück
      * @return Name des Spielers
@@ -68,15 +77,8 @@ public class Spieler {
         return schiffe;
     }
 
-    /**
-     * @see net.white_it.ships.models.Spielfeld#print(boolean)
-     */
-    public void printSpielfeld(boolean own){
-        this.spielfeld.print(own);
-    }
-
-    public boolean tryPlaceShip(boolean isVertical, int size, int x, int y){
-        return this.spielfeld.tryPlaceShip(isVertical, size, x, y);
+    public Spielfeld getSpielfeld() {
+        return spielfeld;
     }
 
     /**

@@ -43,6 +43,15 @@ public class Schiffsammlung {
         this.schiffe = new Schiff[0];
     }
 
+    public Schiff getShipByKey(int key){
+        return this.schiffe[key];
+    }
+
+    public void printShipList(){
+        for(int i = 0; i < this.schiffe.length; i++){
+            System.out.println(i + " - " + this.schiffe[i].getIdentifier());
+        }
+    }
     /**
      * Returns a string representation of the object. In general, the
      * {@code toString} method returns a string that

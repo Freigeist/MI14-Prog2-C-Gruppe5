@@ -9,7 +9,7 @@ public abstract class Schiff {
      */
     private int laenge;
 
-    private int schusszahl;
+    private int schussbreite;
 
     private int wiederNutzbarNach;
 
@@ -48,9 +48,9 @@ public abstract class Schiff {
      */
     private int inaktiveRunden;
 
-    public Schiff(int laenge, int schusszahl, int wiederNutzbarNach, boolean isVertical, int coordX, int coordY) {
+    public Schiff(int laenge, int schussbreite, int wiederNutzbarNach, boolean isVertical, int coordX, int coordY) {
         this.laenge = laenge;
-        this.schusszahl = schusszahl;
+        this.schussbreite = schussbreite;
         this.wiederNutzbarNach = wiederNutzbarNach;
         this.isVertical = isVertical;
         this.coordX = coordX;
@@ -86,19 +86,31 @@ public abstract class Schiff {
         return false;
     }
 
+    public boolean wasHit(int x, int y) {
+        if (this.checkCoord(x, y) >= 0) {
+            if (!this.isVertical) {
+                this.treffer[x - this.coordX] = true;
+            } else {
+                this.treffer[y - this.coordY] = true;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public int checkCoord(int x, int y) {
         if (!this.isVertical) { // Schiff ist horizontal
             if (y != this.coordY) {
                 // Wenn das Schiff horizontal ist und die übergebene Y Koordinate nicht der
                 // Y Koordinate des Schiffs entspricht, ist eine weitere Überprüfung hinfällig
-                return -1;
+                return -2;
             }
 
             if (x >= this.coordX && x < this.coordX + this.laenge) {
                 // Ist das Schiff an der ursprünglichen X Koordinate
                 return (this.treffer[x - this.coordX] ? 1 : 0);
             } else {
-                return -1;
+                return -2;
             }
         } else { // Schiff ist vertikal
             if (x != this.coordX) {
@@ -108,7 +120,7 @@ public abstract class Schiff {
             if (y >= this.coordY && y < this.coordY + this.laenge) {
                 return (this.treffer[y - this.coordY] ? 1 : 0);
             } else {
-                return -1;
+                return -2;
             }
         }
     }
@@ -132,6 +144,15 @@ public abstract class Schiff {
 
             return (y >= this.coordY - 1 && y <= this.coordY + this.laenge);
         }
+    }
+
+    public String getIdentifier() {
+        String status = (this.isAlive() ? (this.isActive() ? "Aktiv" : "Inaktiv") : "Gesunken");
+        return this.getClass().getSimpleName() + " auf " + coordX + "," + coordY + "(" + status + ")";
+    }
+
+    public int getSchussbreite() {
+        return schussbreite;
     }
 
     /**

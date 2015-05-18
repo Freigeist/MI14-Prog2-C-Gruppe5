@@ -37,9 +37,12 @@ public class Spielersammlung {
         return this.spieler[key];
     }
 
-    public void printPlayerList(boolean excludeActivePlayer){
+    public void printPlayerList(boolean excludeActivePlayer, boolean excludeDeadPlayer){
         for(int i = 0; i < this.spieler.length; i++){
             if(excludeActivePlayer && i == this.activePlayer)
+                continue;
+
+            if(excludeDeadPlayer && !this.spieler[i].isAlive())
                 continue;
 
             System.out.println(i + " - " + this.spieler[i].getName());

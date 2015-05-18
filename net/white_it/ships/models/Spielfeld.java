@@ -92,6 +92,8 @@ public class Spielfeld {
         }
         for (Schiff s : this.schiffe.getSchiffe()) {
             check = s.checkCoord(x, y);
+            if(ret == -2 && check == -1)
+                continue;
             if (ret < check)
                 ret = check;
         }
@@ -126,6 +128,43 @@ public class Spielfeld {
         }
     }
 
+    public boolean coordIsInField(int x, int y){
+        return (x >= 0 && y >= 0 && x < this.coords.length && y < this.coords.length);
+    }
+
+    public void fire(int x, int y, int schussbreite, boolean isVertical) {
+        boolean hitShip = false;
+        if(!isVertical){
+            for(int i = y; i < y + schussbreite; i++){
+                if(this.coordIsInField(x,y)){
+                    this.coords[x][y] = true;
+                    for(Schiff s : this.schiffe.getSchiffe()){
+                        if(s.wasHit(x,y)){
+                            hitShip = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            for(int i = x; i < x + schussbreite; i++){
+                if(this.coordIsInField(x,y)){
+                    this.coords[x][y] = true;
+                    for(Schiff s : this.schiffe.getSchiffe()){
+                        if(s.wasHit(x,y)){
+                            hitShip = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if(hitShip)
+            System.out.println("Ein Schiff wurde auf "+xyToCoord(x,y)+" getroffen!");
+        else
+            System.out.println("Der Schuss auf "+xyToCoord(x,y)+" ging ins Wasser.");
+    }
+
     /**
      * Wandelt aus Buchstaben und Zahlen bestehende Koordinaten in Zahlen um,
      * die weiter genutzt werden können. Das Format spielt keine Rolle "A1", "1A", "1a" oder
@@ -133,7 +172,7 @@ public class Spielfeld {
      * vorhanden ist und genau ein Buchstabe von A-Z
      *
      * @param coord String der Koordinaten
-     * @return int[] -> Index 0 = y; Index 1 = y
+     * @return int[] -> Index 0 = x; Index 1 = y
      * @throws NoValidCoordinateException
      */
     public static int[] coordToXY(String coord) throws NoValidCoordinateException {
@@ -157,6 +196,11 @@ public class Spielfeld {
         if (y < 0)
             throw new NoValidCoordinateException();
         return new int[]{x, y};
+    }
+
+    public static String xyToCoord(int x, int y){
+        char c = (char) (65 + x);
+        return c + "" + (y+1);
     }
 
     public boolean tryPlaceShip(boolean isVertical, int size, int x, int y){
