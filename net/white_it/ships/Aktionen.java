@@ -28,10 +28,10 @@ public class Aktionen {
         } while (spielfeldgroesse < 5 || spielfeldgroesse > 20);
 
         int maxShips = Math.round(spielfeldgroesse / 3);
-        int maxUBoot = (int) Math.floor(spielfeldgroesse / 2);
-        int maxKorvette = (int) Math.floor(spielfeldgroesse / 3);
-        int maxFregatte = (int) Math.floor(spielfeldgroesse / 4);
-        int maxZerstoerer = (int) Math.floor(spielfeldgroesse / 5);
+        int maxUBoot = (int) Math.floor(spielfeldgroesse / UBoot.size);
+        int maxKorvette = (int) Math.floor(spielfeldgroesse / Korvette.size);
+        int maxFregatte = (int) Math.floor(spielfeldgroesse / Fregatte.size);
+        int maxZerstoerer = (int) Math.floor(spielfeldgroesse / Zerstoerer.size);
 
         System.out.println("Es k\u00F6nnen max. " + maxShips + " gesetzt werden, bitte entscheiden sie welche:\n");
 
@@ -88,7 +88,7 @@ public class Aktionen {
                 System.out.println("\n\nEs wurde keine Schiffe gew\u00E4hlt, die Auswahl wird wiederholt!\n");
                 accepted = false;
             } else if (Counter > 0) {
-                System.out.println("Sie haben noch " + Counter + " von " + maxShips + "Schiffen \u00FCbrig,\n" +
+                System.out.print("Sie haben noch " + Counter + " von " + maxShips + "Schiffen \u00FCbrig,\n" +
                         "deren Typen sie nicht gew\u00E4hlt haben, moechten sie wirklich fortfahren? [j/n]: ");
                 do {
                     check = IO.getString();

@@ -148,7 +148,7 @@ public abstract class Schiff {
 
     public String getIdentifier() {
         String status = (this.isAlive() ? (this.isActive() ? "Aktiv" : "Inaktiv") : "Gesunken");
-        return this.getClass().getSimpleName() + " auf " + coordX + "," + coordY + "(" + status + ")";
+        return this.getClass().getSimpleName() + " auf " + coordX + "," + coordY + " (" + status + ")";
     }
 
     public int getSchussbreite() {

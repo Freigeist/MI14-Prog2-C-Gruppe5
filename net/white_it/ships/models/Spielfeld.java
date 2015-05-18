@@ -136,33 +136,39 @@ public class Spielfeld {
         boolean hitShip = false;
         if(!isVertical){
             for(int i = y; i < y + schussbreite; i++){
-                if(this.coordIsInField(x,y)){
-                    this.coords[x][y] = true;
+                if(this.coordIsInField(x,i)){
+                    this.coords[x][i] = true;
+                    hitShip = false;
                     for(Schiff s : this.schiffe.getSchiffe()){
-                        if(s.wasHit(x,y)){
+                        if(s.wasHit(x,i)){
                             hitShip = true;
                             break;
                         }
                     }
+                    if(hitShip)
+                        System.out.println("Ein Schiff wurde auf "+xyToCoord(x,i)+" getroffen!");
+                    else
+                        System.out.println("Der Schuss auf "+xyToCoord(x,i)+" ging ins Wasser.");
                 }
             }
         } else {
             for(int i = x; i < x + schussbreite; i++){
-                if(this.coordIsInField(x,y)){
-                    this.coords[x][y] = true;
+                if(this.coordIsInField(i,y)){
+                    this.coords[i][y] = true;
+                    hitShip = false;
                     for(Schiff s : this.schiffe.getSchiffe()){
-                        if(s.wasHit(x,y)){
+                        if(s.wasHit(i,y)){
                             hitShip = true;
                             break;
                         }
                     }
+                    if(hitShip)
+                        System.out.println("Ein Schiff wurde auf "+xyToCoord(i,y)+" getroffen!");
+                    else
+                        System.out.println("Der Schuss auf "+xyToCoord(i,y)+" ging ins Wasser.");
                 }
             }
         }
-        if(hitShip)
-            System.out.println("Ein Schiff wurde auf "+xyToCoord(x,y)+" getroffen!");
-        else
-            System.out.println("Der Schuss auf "+xyToCoord(x,y)+" ging ins Wasser.");
     }
 
     /**
@@ -226,7 +232,7 @@ public class Spielfeld {
                     }
                 }
             }
-        } else {// Schiff ist vertikal
+        } else { // Schiff ist vertikal
             if(y < 0 || y >= this.coords.length || y+size-1 >= this.coords.length) {
                 //Schiff würde auf der Y Achse über den Feldrand gehen, werfe IndexOutOfBoundsException
                 throw new IndexOutOfBoundsException();
