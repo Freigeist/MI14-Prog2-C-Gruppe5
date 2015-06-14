@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 public class IO {
     /**
      * BufferedReader Object zum Einlesen von Eingaben aus der Kommandozeile
      */
     private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    
 
     /**
      * Liest einen String von der Kommandozeile ein
@@ -49,8 +51,11 @@ public class IO {
         return num;
     }
 
-    public static void waitForReturn() {
-        System.out.println("Eingabe zum fortfahren dr√ºcken...");
-        IO.getString();
+    public static boolean waitForReturn(boolean isComputer) {
+        if(!isComputer){
+        	System.out.println("Eingabe zum fortfahren drücken...");
+        	IO.getString();
+        }
+        return true;
     }
 }

@@ -23,11 +23,22 @@ public class Spieler {
      * @since 1.0
      */
     private Schiffsammlung schiffe;
+    
+    /**
+     * attribute um festzulegen ob spieler ki ist
+     * @ 13.06.15
+     */
+    private boolean isComputer;
 
-    public Spieler(String name, int spielfeldgroesse) {
+    public Spieler(String name, int spielfeldgroesse, boolean isComputer) {
         this.name = name;
         this.schiffe = new Schiffsammlung();
         this.spielfeld = new Spielfeld(spielfeldgroesse, schiffe);
+        this.isComputer = isComputer;
+    }
+    
+    public Spieler(){
+        
     }
 
     /**
@@ -68,6 +79,10 @@ public class Spieler {
     public String getName() {
         return name;
     }
+    
+    public void setName(String name){
+        this.name = name;
+    }
 
     /**
      * Gibt die @see Schiffssammlung des Spielers zurück
@@ -79,6 +94,14 @@ public class Spieler {
 
     public Spielfeld getSpielfeld() {
         return spielfeld;
+    }
+    
+    public boolean getIsComputer(){
+        return isComputer;
+    }
+    
+    public void setIsComputer(boolean isComputer){
+        this.isComputer = isComputer;
     }
 
     /**
