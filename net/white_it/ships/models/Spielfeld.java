@@ -92,7 +92,7 @@ public class Spielfeld {
         }
         for (Schiff s : this.schiffe.getSchiffe()) {
             check = s.checkCoord(x, y);
-            if(ret == -2 && check == -1)
+            if (ret == -2 && check == -1)
                 continue;
             if (ret < check)
                 ret = check;
@@ -128,44 +128,44 @@ public class Spielfeld {
         }
     }
 
-    public boolean coordIsInField(int x, int y){
+    public boolean coordIsInField(int x, int y) {
         return (x >= 0 && y >= 0 && x < this.coords.length && y < this.coords.length);
     }
 
     public void fire(int x, int y, int schussbreite, boolean isVertical) {
         boolean hitShip = false;
-        if(!isVertical){
-            for(int i = y; i < y + schussbreite; i++){
-                if(this.coordIsInField(x,i)){
+        if (!isVertical) {
+            for (int i = y; i < y + schussbreite; i++) {
+                if (this.coordIsInField(x, i)) {
                     this.coords[x][i] = true;
                     hitShip = false;
-                    for(Schiff s : this.schiffe.getSchiffe()){
-                        if(s.wasHit(x,i)){
+                    for (Schiff s : this.schiffe.getSchiffe()) {
+                        if (s.wasHit(x, i)) {
                             hitShip = true;
                             break;
                         }
                     }
-                    if(hitShip)
-                        System.out.println("Ein Schiff wurde auf "+xyToCoord(x,i)+" getroffen!");
+                    if (hitShip)
+                        System.out.println("Ein Schiff wurde auf " + xyToCoord(x, i) + " getroffen!");
                     else
-                        System.out.println("Der Schuss auf "+xyToCoord(x,i)+" ging ins Wasser.");
+                        System.out.println("Der Schuss auf " + xyToCoord(x, i) + " ging ins Wasser.");
                 }
             }
         } else {
-            for(int i = x; i < x + schussbreite; i++){
-                if(this.coordIsInField(i,y)){
+            for (int i = x; i < x + schussbreite; i++) {
+                if (this.coordIsInField(i, y)) {
                     this.coords[i][y] = true;
                     hitShip = false;
-                    for(Schiff s : this.schiffe.getSchiffe()){
-                        if(s.wasHit(i,y)){
+                    for (Schiff s : this.schiffe.getSchiffe()) {
+                        if (s.wasHit(i, y)) {
                             hitShip = true;
                             break;
                         }
                     }
-                    if(hitShip)
-                        System.out.println("Ein Schiff wurde auf "+xyToCoord(i,y)+" getroffen!");
+                    if (hitShip)
+                        System.out.println("Ein Schiff wurde auf " + xyToCoord(i, y) + " getroffen!");
                     else
-                        System.out.println("Der Schuss auf "+xyToCoord(i,y)+" ging ins Wasser.");
+                        System.out.println("Der Schuss auf " + xyToCoord(i, y) + " ging ins Wasser.");
                 }
             }
         }
@@ -204,27 +204,27 @@ public class Spielfeld {
         return new int[]{x, y};
     }
 
-    public static String xyToCoord(int x, int y){
+    public static String xyToCoord(int x, int y) {
         char c = (char) (65 + x);
-        return c + "" + (y+1);
+        return c + "" + (y + 1);
     }
 
-    public boolean tryPlaceShip(boolean isVertical, int size, int x, int y){
+    public boolean tryPlaceShip(boolean isVertical, int size, int x, int y) {
         boolean ret = true;
-        if(!isVertical){// Schiff ist horizontal
-            if(x < 0 || x >= this.coords.length || x+size-1 >= this.coords.length) {
+        if (!isVertical) {// Schiff ist horizontal
+            if (x < 0 || x >= this.coords.length || x + size - 1 >= this.coords.length) {
                 //Schiff würde auf der X Achse über den Feldrand gehen, werfe IndexOutOfBoundsException
                 throw new IndexOutOfBoundsException();
             }
-            if(y < 0 || y >= this.coords.length){
+            if (y < 0 || y >= this.coords.length) {
                 //Schiff würde auf der Y Achse über den Feldrand gehen, werfe IndexOutOfBoundsException
                 throw new IndexOutOfBoundsException();
             }
             // Gehe alle möglichen Koordinaten des neuen Schiffs durch
-            for(int i = x; i < x+size && ret; i++){
+            for (int i = x; i < x + size && ret; i++) {
                 // Prüfe jedes bislang vorhandene Schiff ob es blockiert
-                for(Schiff s : this.schiffe.getSchiffe()){
-                    if(s.checkCollision(x,y)){
+                for (Schiff s : this.schiffe.getSchiffe()) {
+                    if (s.checkCollision(x, y)) {
                         // Wenn ein Schiff blockiert, setze ret auf false
                         // und breche die Schleife mit break ab
                         ret = false;
@@ -233,19 +233,19 @@ public class Spielfeld {
                 }
             }
         } else { // Schiff ist vertikal
-            if(y < 0 || y >= this.coords.length || y+size-1 >= this.coords.length) {
+            if (y < 0 || y >= this.coords.length || y + size - 1 >= this.coords.length) {
                 //Schiff würde auf der Y Achse über den Feldrand gehen, werfe IndexOutOfBoundsException
                 throw new IndexOutOfBoundsException();
             }
-            if(x < 0 || x >= this.coords.length){
+            if (x < 0 || x >= this.coords.length) {
                 //Schiff würde auf der X Achse über den Feldrand gehen, werfe IndexOutOfBoundsException
                 throw new IndexOutOfBoundsException();
             }
             // Gehe alle möglichen Koordinaten des neuen Schiffs durch
-            for(int i = y; i < y+size && ret; i++){
+            for (int i = y; i < y + size && ret; i++) {
                 // Prüfe jedes bislang vorhandene Schiff ob es blockiert
-                for(Schiff s : this.schiffe.getSchiffe()){
-                    if(s.checkCollision(x,y)){
+                for (Schiff s : this.schiffe.getSchiffe()) {
+                    if (s.checkCollision(x, y)) {
                         // Wenn ein Schiff blockiert, setze ret auf false
                         // und breche die Schleife mit break ab
                         ret = false;

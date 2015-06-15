@@ -23,9 +23,10 @@ public class Spieler {
      * @since 1.0
      */
     private Schiffsammlung schiffe;
-    
+
     /**
      * attribute um festzulegen ob spieler ki ist
+     *
      * @ 13.06.15
      */
     private boolean isComputer;
@@ -36,9 +37,9 @@ public class Spieler {
         this.spielfeld = new Spielfeld(spielfeldgroesse, schiffe);
         this.isComputer = isComputer;
     }
-    
-    public Spieler(){
-        
+
+    public Spieler() {
+
     }
 
     /**
@@ -48,24 +49,24 @@ public class Spieler {
      *
      * @since 1.0
      */
-    public void preTurn(){
-        for(Schiff s : this.schiffe.getSchiffe()){
+    public void preTurn() {
+        for (Schiff s : this.schiffe.getSchiffe()) {
             s.preTurn();
         }
     }
 
-    public boolean isAlive(){
-        for (Schiff s : this.schiffe.getSchiffe()){
-            if(s.isAlive()) {
+    public boolean isAlive() {
+        for (Schiff s : this.schiffe.getSchiffe()) {
+            if (s.isAlive()) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean hasActiveShips(){
-        for (Schiff s : this.schiffe.getSchiffe()){
-            if(s.isActive() && s.isAlive()) {
+    public boolean hasActiveShips() {
+        for (Schiff s : this.schiffe.getSchiffe()) {
+            if (s.isActive() && s.isAlive()) {
                 return true;
             }
         }
@@ -74,18 +75,20 @@ public class Spieler {
 
     /**
      * Gibt den Namen des Spielers zurück
+     *
      * @return Name des Spielers
      */
     public String getName() {
         return name;
     }
-    
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
 
     /**
      * Gibt die @see Schiffssammlung des Spielers zurück
+     *
      * @return Schiffssammlung des Spielers
      */
     public Schiffsammlung getSchiffe() {
@@ -95,12 +98,12 @@ public class Spieler {
     public Spielfeld getSpielfeld() {
         return spielfeld;
     }
-    
-    public boolean getIsComputer(){
+
+    public boolean getIsComputer() {
         return isComputer;
     }
-    
-    public void setIsComputer(boolean isComputer){
+
+    public void setIsComputer(boolean isComputer) {
         this.isComputer = isComputer;
     }
 
@@ -127,6 +130,6 @@ public class Spieler {
      */
     @Override
     public String toString() {
-        return "[Spieler="+this.name+"]";
+        return "[Spieler=" + this.name + "]";
     }
 }

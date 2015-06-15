@@ -17,6 +17,7 @@ public class Schiffsammlung {
 
     /**
      * Gibt das gesammte Schiffsarray zurück
+     *
      * @return Schiff[]
      */
     public Schiff[] getSchiffe() {
@@ -25,6 +26,7 @@ public class Schiffsammlung {
 
     /**
      * Fügt dem Schiff[] ein neues Schiff hinzu
+     *
      * @param schiff
      */
     public void push(Schiff schiff) {
@@ -39,19 +41,20 @@ public class Schiffsammlung {
     /**
      * Entfernt alle Schiffe aus dem Array
      */
-    public void clear(){
+    public void clear() {
         this.schiffe = new Schiff[0];
     }
 
-    public Schiff getShipByKey(int key){
+    public Schiff getShipByKey(int key) {
         return this.schiffe[key];
     }
 
-    public void printShipList(){
-        for(int i = 0; i < this.schiffe.length; i++){
+    public void printShipList() {
+        for (int i = 0; i < this.schiffe.length; i++) {
             System.out.println(i + " - " + this.schiffe[i].getIdentifier());
         }
     }
+
     /**
      * Returns a string representation of the object. In general, the
      * {@code toString} method returns a string that
@@ -78,12 +81,12 @@ public class Schiffsammlung {
         String ret = "[Schiffsammlung=";
         int len = this.schiffe.length;
 
-        for(int i = 0; i < len-1;i++){
+        for (int i = 0; i < len - 1; i++) {
             ret += this.schiffe[i].toString() + ",";
         }
 
-        if(len > 0)
-            ret += this.schiffe[len-1].toString();
+        if (len > 0)
+            ret += this.schiffe[len - 1].toString();
 
         ret += "]";
 

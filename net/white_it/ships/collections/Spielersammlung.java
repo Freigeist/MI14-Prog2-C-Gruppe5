@@ -24,25 +24,25 @@ public class Spielersammlung {
         this.spieler = s;
     }
 
-    public Spieler getNext(){
-        if(this.spieler.length < 1)
+    public Spieler getNext() {
+        if (this.spieler.length < 1)
             throw new NoPlayerException();
         activePlayer++;
-        if(activePlayer >= spieler.length)
+        if (activePlayer >= spieler.length)
             activePlayer = 0;
         return this.spieler[activePlayer];
     }
 
-    public Spieler getSpielerByKey(int key){
+    public Spieler getSpielerByKey(int key) {
         return this.spieler[key];
     }
 
-    public void printPlayerList(boolean excludeActivePlayer, boolean excludeDeadPlayer){
-        for(int i = 0; i < this.spieler.length; i++){
-            if(excludeActivePlayer && i == this.activePlayer)
+    public void printPlayerList(boolean excludeActivePlayer, boolean excludeDeadPlayer) {
+        for (int i = 0; i < this.spieler.length; i++) {
+            if (excludeActivePlayer && i == this.activePlayer)
                 continue;
 
-            if(excludeDeadPlayer && !this.spieler[i].isAlive())
+            if (excludeDeadPlayer && !this.spieler[i].isAlive())
                 continue;
 
             System.out.println(i + " - " + this.spieler[i].getName());
@@ -75,12 +75,12 @@ public class Spielersammlung {
         String ret = "[Spielersammlung=";
         int len = this.spieler.length;
 
-        for(int i = 0; i < len-1;i++){
+        for (int i = 0; i < len - 1; i++) {
             ret += this.spieler[i].toString() + ",";
         }
 
-        if(len > 0)
-            ret += this.spieler[len-1].toString();
+        if (len > 0)
+            ret += this.spieler[len - 1].toString();
 
         ret += "]";
 

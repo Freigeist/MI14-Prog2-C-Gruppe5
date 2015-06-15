@@ -9,13 +9,13 @@ import net.white_it.ships.helper.IO;
 import net.white_it.ships.models.*;
 
 public class Aktionen {
-	/**
+    /**
      * hier werden spieleinstellungen vorgenommen
      *
      * @since 1.0
      */
-	private static int spielfeldgroesse;
-	
+    private static int spielfeldgroesse;
+
     public static void prepareGame() {
         System.out.print("Wie viele Spieler sollen teilnehmen? [2-6]: ");
         int spielerzahl;
@@ -114,37 +114,35 @@ public class Aktionen {
         boolean isComputer;
         boolean isValid_test;
         for (int i = 1; i <= spielerzahl; i++) {
-        	System.out.println("Bitte geben sie den Namen f\u00FCr Spieler" + i + " ein.");
+            System.out.println("Bitte geben sie den Namen f\u00FCr Spieler" + i + " ein.");
             do {
                 System.out.print("Name (min. 3 & max. 20 Zeichen): ");
                 name = IO.getString();
             } while (name.length() < 3 || name.length() > 20);
-            
-            System.out.println("Soll "+ name + " ein Computer sein?");
-            
+
+            System.out.println("Soll " + name + " ein Computer sein?");
+
             do {
                 System.out.print("J/N");
-                
+
                 isPcAbfrage = IO.getString();
-              
-                
-                
-                if(isPcAbfrage.equalsIgnoreCase("j")){
-                	System.out.println("Der Spieler "+name + " ist ein Computer.");
-                	isValid_test = true;
-                	isComputer = true;
-                 }else if(isPcAbfrage.equalsIgnoreCase("n")){
-                	System.out.println("Der Spieler "+name + " ist kein Computer.");
-                	isValid_test = true;
-                	isComputer = false;
-                 } else {
-                	 isValid_test = false;
-                	 	isComputer = false;
-                 }
-                
+
+                if (isPcAbfrage.equalsIgnoreCase("j")) {
+                    System.out.println("Der Spieler " + name + " ist ein Computer.");
+                    isValid_test = true;
+                    isComputer = true;
+                } else if (isPcAbfrage.equalsIgnoreCase("n")) {
+                    System.out.println("Der Spieler " + name + " ist kein Computer.");
+                    isValid_test = true;
+                    isComputer = false;
+                } else {
+                    isValid_test = false;
+                    isComputer = false;
+                }
+
             } while (!isValid_test);
-            
-           
+
+
             GameObjects.getSpieler().push(new Spieler(name, spielfeldgroesse, isComputer));
         }
 
@@ -173,8 +171,8 @@ public class Aktionen {
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords(true,spieler.getIsComputer());
-                            isVertical = _retriveAusrichtung(true,spieler.getIsComputer());
+                            coord = _retriveCoords(true, spieler.getIsComputer());
+                            isVertical = _retriveAusrichtung(true, spieler.getIsComputer());
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break ZerstoererLoop;
@@ -199,8 +197,8 @@ public class Aktionen {
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords(true,spieler.getIsComputer());
-                            isVertical = _retriveAusrichtung(true,spieler.getIsComputer());
+                            coord = _retriveCoords(true, spieler.getIsComputer());
+                            isVertical = _retriveAusrichtung(true, spieler.getIsComputer());
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break FregattenLoop;
@@ -225,8 +223,8 @@ public class Aktionen {
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords(true,spieler.getIsComputer());
-                            isVertical = _retriveAusrichtung(true,spieler.getIsComputer());
+                            coord = _retriveCoords(true, spieler.getIsComputer());
+                            isVertical = _retriveAusrichtung(true, spieler.getIsComputer());
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break KorvettenLoop;
@@ -251,8 +249,8 @@ public class Aktionen {
                     do {
                         isValid = false;
                         try {
-                            coord = _retriveCoords(true,spieler.getIsComputer());
-                            isVertical = _retriveAusrichtung(true,spieler.getIsComputer());
+                            coord = _retriveCoords(true, spieler.getIsComputer());
+                            isVertical = _retriveAusrichtung(true, spieler.getIsComputer());
                         } catch (AbortedByUserException ignored) {
                             accepted = false;
                             break UBootLoop;
@@ -272,21 +270,21 @@ public class Aktionen {
 
                 if (accepted) {
                     spieler.getSpielfeld().print(true);
-                    
-                    if(isComputer){
-                    	 isValid = true;
-                    	 accepted = true;
+
+                    if (isComputer) {
+                        isValid = true;
+                        accepted = true;
                     } else {
-                    System.out.print("\nDies w\u00E4re ihr Spielfeld, m\u00F6chten sie das setzen wiederholen? [j/n]: ");
-                    do {
-                        isValid = false;
-                        check = IO.getString();
-                        if (check.matches("[jJnN]")) {
-                            isValid = true;
-                            accepted = check.equalsIgnoreCase("n");
-                        }
-                    } while (!isValid);
-                }
+                        System.out.print("\nDies w\u00E4re ihr Spielfeld, m\u00F6chten sie das setzen wiederholen? [j/n]: ");
+                        do {
+                            isValid = false;
+                            check = IO.getString();
+                            if (check.matches("[jJnN]")) {
+                                isValid = true;
+                                accepted = check.equalsIgnoreCase("n");
+                            }
+                        } while (!isValid);
+                    }
                 }
             } while (!accepted);
         }
@@ -328,14 +326,14 @@ public class Aktionen {
                 while (true) {
                     spieler.printPlayerList(true, true);
                     System.out.print("\nBitte w\u00E4hlen sie den Spieler den sie angreifen wollen: ");
-                    
-                    if(activePlayer.getIsComputer()){
-                    	
-                    	inputI = (int) (Math.random() * 5);    //random
-                    	System.out.println(inputI);
-                    	
+
+                    if (activePlayer.getIsComputer()) {
+
+                        inputI = (int) (Math.random() * 5);    //random
+                        System.out.println(inputI);
+
                     } else {
-                    	inputI = IO.getInt();
+                        inputI = IO.getInt();
                     }
                     try {
                         enemyPlayer = spieler.getSpielerByKey(inputI);
@@ -352,18 +350,18 @@ public class Aktionen {
                         System.out.println("");
                         break;
                     }
-                    
+
                 }
 
                 while (true) {
                     activePlayer.getSchiffe().printShipList();
                     System.out.print("Bitte w\u00E4hlen sie das Schiff mit dem sie schie\u00DFen wollen: ");
-                    
-                    if(activePlayer.getIsComputer()){
-                    	inputI = (int) (Math.random() * 6);    //random
-                    	System.out.println(inputI);
+
+                    if (activePlayer.getIsComputer()) {
+                        inputI = (int) (Math.random() * 6);    //random
+                        System.out.println(inputI);
                     } else {
-                    	inputI = IO.getInt();
+                        inputI = IO.getInt();
                     }
                     try {
                         activeShip = activePlayer.getSchiffe().getShipByKey(inputI);
@@ -384,11 +382,11 @@ public class Aktionen {
 
                 enemyPlayer.getSpielfeld().print(false);
                 System.out.println("Wohin m\u00F6chten sie schie\u00DFen?");
-                coords = _retriveCoords(false,activePlayer.getIsComputer());
+                coords = _retriveCoords(false, activePlayer.getIsComputer());
 
                 if (activeShip.getSchussbreite() > 1) {
                     System.out.println("M\u00F6chten sie horizontal oder vertikal schie\u00DFen?");
-                    isVertical = _retriveAusrichtung(false,activePlayer.getIsComputer());
+                    isVertical = _retriveAusrichtung(false, activePlayer.getIsComputer());
                 } else {
                     isVertical = false;
                 }
@@ -412,29 +410,28 @@ public class Aktionen {
         boolean isValid;
         String check;
         int[] coord = new int[0];
-        
-        
+
         do {
             isValid = false;
-            
-            if(isComputer){
-            	check = getCoordsForKI();
-            	System.out.println(check);
+
+            if (isComputer) {
+                check = getCoordsForKI();
+                System.out.println(check);
             } else {
-            	System.out.print("Position [z.B. A1 oder auch 1A" + (allowReset ? " oder 'reset'" : "") + "]: ");
-	            check = IO.getString();
+                System.out.print("Position [z.B. A1 oder auch 1A" + (allowReset ? " oder 'reset'" : "") + "]: ");
+                check = IO.getString();
             }
-	            if (allowReset && check.equalsIgnoreCase("reset")) {
-	                throw new AbortedByUserException();
-	            }
-	            try {
-	                coord = Spielfeld.coordToXY(check);
-	                isValid = true;
-	            } catch (NoValidCoordinateException e) {
-	                System.out.println("'" + check + "' ist keine valide Koordinate!");
-	            }
-            
-            
+            if (allowReset && check.equalsIgnoreCase("reset")) {
+                throw new AbortedByUserException();
+            }
+            try {
+                coord = Spielfeld.coordToXY(check);
+                isValid = true;
+            } catch (NoValidCoordinateException e) {
+                System.out.println("'" + check + "' ist keine valide Koordinate!");
+            }
+
+
         } while (!isValid);
 
         return coord;
@@ -442,8 +439,8 @@ public class Aktionen {
 
     /**
      * Weitere Funktion zur Vermeidung von unn\u00F6tigen doppelten Code
-     * @param isComputer 
      *
+     * @param isComputer
      * @return
      * @throws AbortedByUserException
      */
@@ -453,51 +450,51 @@ public class Aktionen {
 
         do {
             isValid = false;
-            if(isComputer){
-            	check = getAusrichtungForKI();
-            	System.out.println(check);
+            if (isComputer) {
+                check = getAusrichtungForKI();
+                System.out.println(check);
             } else {
-            	System.out.print("Ausrichtung [h/v" + (allowReset ? " oder 'reset'" : "") + "]: ");
-	            check = IO.getString();
+                System.out.print("Ausrichtung [h/v" + (allowReset ? " oder 'reset'" : "") + "]: ");
+                check = IO.getString();
             }
-	            if (allowReset && check.equalsIgnoreCase("reset")) {
-	                throw new AbortedByUserException();
-	            }
-	            if (check.matches("[hHvV]")) {
-	                isValid = true;
-	                ret = check.equalsIgnoreCase("v");
-	            }
-            
+            if (allowReset && check.equalsIgnoreCase("reset")) {
+                throw new AbortedByUserException();
+            }
+            if (check.matches("[hHvV]")) {
+                isValid = true;
+                ret = check.equalsIgnoreCase("v");
+            }
+
         } while (!isValid);
 
         return ret;
     }
-    
-    
-    public static String getCoordsForKI(){
-	     String[] abc = {"a", "b", "c", "d", "e", "f", "g", "h", "i","j","k","l","m","n","o","p","q","r","s","t","u"};
-	     int max = getSpielfeldgroesse();
-	     int min = 0;
-	         String letter = abc[(int)Math.round(Math.random() * (max - min)+ min)];
-	         String number = "" +(int) (Math.random() * max+1);
-		     
-		     return number+letter;
-   }
-    
-    public static String getAusrichtungForKI(){
-	     String ausrichtung;
-	     int number = (int) (Math.random() * 100);
-	         
-	     if(number % 2 == 0){
-        	 ausrichtung = "v";
-         } else {
-        	 ausrichtung = "h";
-         }
-		     
-		     return ausrichtung;
-   }
 
-	private static int getSpielfeldgroesse() {
-		return spielfeldgroesse;
-	}
+
+    public static String getCoordsForKI() {
+        String[] abc = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u"};
+        int max = getSpielfeldgroesse();
+        int min = 0;
+        String letter = abc[(int) Math.round(Math.random() * (max - min) + min)];
+        String number = "" + (int) (Math.random() * max + 1);
+
+        return number + letter;
+    }
+
+    public static String getAusrichtungForKI() {
+        String ausrichtung;
+        int number = (int) (Math.random() * 100);
+
+        if (number % 2 == 0) {
+            ausrichtung = "v";
+        } else {
+            ausrichtung = "h";
+        }
+
+        return ausrichtung;
+    }
+
+    private static int getSpielfeldgroesse() {
+        return spielfeldgroesse;
+    }
 }
