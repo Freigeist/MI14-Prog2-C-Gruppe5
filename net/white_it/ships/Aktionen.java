@@ -23,7 +23,7 @@ public class Aktionen {
             spielerzahl = IO.getInt();
         } while (spielerzahl < 2 || spielerzahl > 6);
 
-        System.out.print("Wie groß soll das Spielfeld sein? [5-20]: ");
+        System.out.print("Wie gro\u00DF soll das Spielfeld sein? [5-20]: ");
         do {
             spielfeldgroesse = IO.getInt();
         } while (spielfeldgroesse < 5 || spielfeldgroesse > 20);
@@ -34,7 +34,7 @@ public class Aktionen {
         int maxFregatte = (int) Math.floor(spielfeldgroesse / Fregatte.size);
         int maxZerstoerer = (int) Math.floor(spielfeldgroesse / Zerstoerer.size);
 
-        System.out.println("Es können max. " + maxShips + " gesetzt werden, bitte entscheiden sie welche:\n");
+        System.out.println("Es k\u00F6nnen max. " + maxShips + " gesetzt werden, bitte entscheiden sie welche:\n");
 
         int Counter, anzahlUBoote, anzahlKorvetten, anzahlFregatten, anzahlZerstoerer;
         String check;
@@ -86,11 +86,11 @@ public class Aktionen {
             }
 
             if (Counter == maxShips) {
-                System.out.println("\n\nEs wurde keine Schiffe gewählt, die Auswahl wird wiederholt!\n");
+                System.out.println("\n\nEs wurde keine Schiffe gew\u00E4hlt, die Auswahl wird wiederholt!\n");
                 accepted = false;
             } else if (Counter > 0) {
-                System.out.print("Sie haben noch " + Counter + " von " + maxShips + "Schiffen übrig,\n" +
-                        "deren Typen sie nicht gewählt haben, moechten sie wirklich fortfahren? [j/n]: ");
+                System.out.print("Sie haben noch " + Counter + " von " + maxShips + "Schiffen \u00FCbrig,\n" +
+                        "deren Typen sie nicht gew\u00E4hlt haben, moechten sie wirklich fortfahren? [j/n]: ");
                 do {
                     check = IO.getString();
                 } while (!check.matches("^[jJnN]$"));
@@ -114,7 +114,7 @@ public class Aktionen {
         boolean isComputer;
         boolean isValid_test;
         for (int i = 1; i <= spielerzahl; i++) {
-        	System.out.println("Bitte geben sie den Namen für Spieler" + i + " ein.");
+        	System.out.println("Bitte geben sie den Namen f\u00FCr Spieler" + i + " ein.");
             do {
                 System.out.print("Name (min. 3 & max. 20 Zeichen): ");
                 name = IO.getString();
@@ -149,7 +149,7 @@ public class Aktionen {
         }
 
         System.out.println("\n\nNun folgt die Plazierung der Schiffe, bei der die Spieler nacheinander\n" +
-                "ihre Schiffe auf dem Spielfeld platzieren können. Der Spieler kann jederzeit\n" +
+                "ihre Schiffe auf dem Spielfeld platzieren k\u00F6nnen. Der Spieler kann jederzeit\n" +
                 "durch die Eingabe von 'reset' mit der Platzierung von vorne beginnen.\n");
 
         Spieler spieler;
@@ -277,7 +277,7 @@ public class Aktionen {
                     	 isValid = true;
                     	 accepted = true;
                     } else {
-                    System.out.print("\nDies wäre ihr Spielfeld, möchten sie das setzen wiederholen? [j/n]: ");
+                    System.out.print("\nDies w\u00E4re ihr Spielfeld, m\u00F6chten sie das setzen wiederholen? [j/n]: ");
                     do {
                         isValid = false;
                         check = IO.getString();
@@ -327,7 +327,7 @@ public class Aktionen {
 
                 while (true) {
                     spieler.printPlayerList(true, true);
-                    System.out.print("\nBitte wählen sie den Spieler den sie angreifen wollen: ");
+                    System.out.print("\nBitte w\u00E4hlen sie den Spieler den sie angreifen wollen: ");
                     
                     if(activePlayer.getIsComputer()){
                     	
@@ -343,9 +343,9 @@ public class Aktionen {
                         enemyPlayer = null;
                     }
                     if (enemyPlayer == null) {
-                        System.out.println("Keinen gültigen Spieler gewählt!\n");
+                        System.out.println("Keinen g\u00FCltigen Spieler gew\u00E4hlt!\n");
                     } else if (enemyPlayer == activePlayer) {
-                        System.out.println("Sie haben sich selbst gewählt!\n");
+                        System.out.println("Sie haben sich selbst gew\u00E4hlt!\n");
                     } else if (!enemyPlayer.isAlive()) {
                         System.out.println("Dieser Spieler ist bereits ausgeschieden!\n");
                     } else {
@@ -357,7 +357,7 @@ public class Aktionen {
 
                 while (true) {
                     activePlayer.getSchiffe().printShipList();
-                    System.out.print("Bitte wählen sie das Schiff mit dem sie schießen wollen: ");
+                    System.out.print("Bitte w\u00E4hlen sie das Schiff mit dem sie schie\u00DFen wollen: ");
                     
                     if(activePlayer.getIsComputer()){
                     	inputI = (int) (Math.random() * 6);    //random
@@ -371,7 +371,7 @@ public class Aktionen {
                         activeShip = null;
                     }
                     if (activeShip == null) {
-                        System.out.println("Keinen gültiges Schiff gewählt!\n");
+                        System.out.println("Keinen g\u00FCltiges Schiff gew\u00E4hlt!\n");
                     } else if (!activeShip.isActive()) {
                         System.out.println("Dieses Schiff ist noch inaktiv!\n");
                     } else if (!activeShip.isAlive()) {
@@ -383,11 +383,11 @@ public class Aktionen {
                 }
 
                 enemyPlayer.getSpielfeld().print(false);
-                System.out.println("Wohin möchten sie schießen?");
+                System.out.println("Wohin m\u00F6chten sie schie\u00DFen?");
                 coords = _retriveCoords(false,activePlayer.getIsComputer());
 
                 if (activeShip.getSchussbreite() > 1) {
-                    System.out.println("Möchten sie horizontal oder vertikal schießen?");
+                    System.out.println("M\u00F6chten sie horizontal oder vertikal schie\u00DFen?");
                     isVertical = _retriveAusrichtung(false,activePlayer.getIsComputer());
                 } else {
                     isVertical = false;
@@ -403,7 +403,7 @@ public class Aktionen {
     }
 
     /**
-     * Hilfsfunktion zur Vermeidung von unnötigen doppelten Code
+     * Hilfsfunktion zur Vermeidung von unn\u00F6tigen doppelten Code
      *
      * @return
      * @throws AbortedByUserException
@@ -441,7 +441,7 @@ public class Aktionen {
     }
 
     /**
-     * Weitere Funktion zur Vermeidung von unnötigen doppelten Code
+     * Weitere Funktion zur Vermeidung von unn\u00F6tigen doppelten Code
      * @param isComputer 
      *
      * @return
