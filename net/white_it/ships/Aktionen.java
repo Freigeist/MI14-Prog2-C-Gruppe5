@@ -360,7 +360,7 @@ public class Aktionen {
                     System.out.print("Bitte wählen sie das Schiff mit dem sie schießen wollen: ");
                     
                     if(activePlayer.getIsComputer()){
-                    	inputI = (int) (Math.random() * 5);    //random
+                    	inputI = (int) (Math.random() * 6);    //random
                     	System.out.println(inputI);
                     } else {
                     	inputI = IO.getInt();
@@ -475,7 +475,7 @@ public class Aktionen {
     
     
     public static String getCoordsForKI(){
-	     String[] abc = {"a", "b", "c", "d", "e", "f", "g", "h", "i","j","k","l","m","n","o","p","q","r","s","t"};
+	     String[] abc = {"a", "b", "c", "d", "e", "f", "g", "h", "i","j","k","l","m","n","o","p","q","r","s","t","u"};
 	     int max = getSpielfeldgroesse();
 	     int min = 0;
 	         String letter = abc[(int)Math.round(Math.random() * (max - min)+ min)];
