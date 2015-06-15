@@ -329,7 +329,7 @@ public class Aktionen {
 
                     if (activePlayer.getIsComputer()) {
 
-                        inputI = (int) (Math.random() * 5);    //random
+                        inputI = (int) (Math.random() * 6);    //random
                         System.out.println(inputI);
 
                     } else {
