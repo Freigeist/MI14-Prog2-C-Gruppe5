@@ -51,6 +51,33 @@ public class Spielersammlung implements Serializable {
         }
     }
 
+    public int[] getPlayerIDs(boolean excludeActivePlayer, boolean excludeDeadPlayer) {
+        int tmp = 0;
+        for (int i = 0; i < this.spieler.length; i++) {
+            if (excludeActivePlayer && i == this.activePlayer)
+                continue;
+
+            if (excludeDeadPlayer && !this.spieler[i].isAlive())
+                continue;
+
+            tmp++;
+        }
+        int[] ret = new int[tmp];
+        tmp = 0;
+
+        for (int i = 0; i < this.spieler.length; i++) {
+            if (excludeActivePlayer && i == this.activePlayer)
+                continue;
+
+            if (excludeDeadPlayer && !this.spieler[i].isAlive())
+                continue;
+
+            ret[tmp] = i;
+            tmp++;
+        }
+        return ret;
+    }
+
     /**
      * Returns a string representation of the object. In general, the
      * {@code toString} method returns a string that

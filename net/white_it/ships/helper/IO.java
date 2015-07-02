@@ -53,7 +53,7 @@ public class IO {
 
     public static boolean waitForReturn(boolean isComputer) {
         if(!isComputer){
-        	System.out.println("Eingabe zum fortfahren dr�cken...");
+        	System.out.println("Eingabe zum fortfahren dr\u00FCcken...");
         	IO.getString();
         }
         return true;

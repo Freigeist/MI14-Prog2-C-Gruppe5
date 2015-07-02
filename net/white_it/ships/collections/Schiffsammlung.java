@@ -57,6 +57,33 @@ public class Schiffsammlung implements Serializable {
         }
     }
 
+    public int[] getSchiffIDs(boolean excludeInactiveShips, boolean excludeDeadShips) {
+        int tmp = 0;
+        for (Schiff S : this.schiffe) {
+            if (excludeInactiveShips && !S.isActive())
+                continue;
+
+            if (excludeDeadShips && !S.isAlive())
+                continue;
+
+            tmp++;
+        }
+        int[] ret = new int[tmp];
+        tmp = 0;
+
+        for (int i = 0; i < this.schiffe.length; i++) {
+            if (excludeInactiveShips && !this.schiffe[i].isActive())
+                continue;
+
+            if (excludeDeadShips && !this.schiffe[i].isAlive())
+                continue;
+
+            ret[tmp] = i;
+            tmp++;
+        }
+        return ret;
+    }
+
     /**
      * Returns a string representation of the object. In general, the
      * {@code toString} method returns a string that

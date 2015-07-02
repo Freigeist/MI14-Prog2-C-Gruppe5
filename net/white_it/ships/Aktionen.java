@@ -25,7 +25,7 @@ public class Aktionen implements Serializable {
     private static String check;
 
     public static void prepareGame() {
-        System.out.println("möchten Sie den letzten Spielstand laden? [j/n]");
+        System.out.println("M\u00F6chten Sie den letzten Spielstand laden? [j/n]");
         String check1;
         boolean accepted1 = false;
         do {
@@ -108,7 +108,7 @@ public class Aktionen implements Serializable {
                     accepted = false;
                 } else if (Counter > 0) {
                     System.out.print("Sie haben noch " + Counter + " von " + maxShips + "Schiffen \u00FCbrig,\n" +
-                            "deren Typen sie nicht gew\u00E4hlt haben, moechten sie wirklich fortfahren? [j/n]: ");
+                            "deren Typen sie nicht gew\u00E4hlt haben, m\u00F6chten sie wirklich fortfahren? [j/n]: ");
                     do {
                         check = IO.getString();
                     } while (!check.matches("^[jJnN]$"));
@@ -353,8 +353,8 @@ public class Aktionen implements Serializable {
                     System.out.print("\nBitte w\u00E4hlen sie den Spieler den sie angreifen wollen: ");
 
                     if (activePlayer.getIsComputer()) {
-
-                        inputI = (int) (Math.random() * 6);    //random
+                        int[] IDs = spieler.getPlayerIDs(true,true);
+                        inputI = IDs[(int)(Math.random() * IDs.length)];    //random
                         System.out.println(inputI);
 
                     } else {
@@ -383,8 +383,8 @@ public class Aktionen implements Serializable {
                     System.out.print("Bitte w\u00E4hlen sie das Schiff mit dem sie schie\u00DFen wollen: ");
 
                     if (activePlayer.getIsComputer()) {
-
-                        inputI = (int) (Math.random() * 6);    //random
+                        int[] IDs = activePlayer.getSchiffe().getSchiffIDs(true,true);
+                        inputI = IDs[(int)(Math.random() * IDs.length)];    //random
                         System.out.println(inputI);
                     } else {
                         inputI = IO.getInt();
