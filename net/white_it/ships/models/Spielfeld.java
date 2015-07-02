@@ -34,6 +34,10 @@ public class Spielfeld implements Serializable {
         this.schiffe = schiffe;
     }
 
+    public int size(){
+        return this.coords.length;
+    }
+
     /**
      * Gibt das Feld auf der Kommandozeile aus
      *

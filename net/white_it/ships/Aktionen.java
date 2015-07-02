@@ -17,29 +17,28 @@ public class Aktionen implements Serializable {
      *
      * @since 1.0
      */
-    private static int spielfeldgroesse;
-    private static int spielerzahl;
-    private static boolean isComputer;
-    private static boolean accepted = false;
-    private static int Counter, anzahlUBoote, anzahlKorvetten, anzahlFregatten, anzahlZerstoerer;
-    private static String check;
 
     public static void prepareGame() {
         System.out.println("M\u00F6chten Sie den letzten Spielstand laden? [j/n]");
-        String check1;
-        boolean accepted1 = false;
+        boolean accepted = false, isComputer;
+        int spielfeldgroesse,
+                Counter,
+                anzahlUBoote = 0,
+                anzahlKorvetten = 0,
+                anzahlFregatten = 0,
+                anzahlZerstoerer = 0,
+                spielerzahl = 0;
+        String check;
         do {
-            check1 = IO.getString();
-        } while (!check1.matches("^[jJnN]$"));
-        accepted1 = check1.equalsIgnoreCase("j");
+            check = IO.getString();
+        } while (!check.matches("^[jJnN]$"));
+        accepted = check.equalsIgnoreCase("j");
 
-        if (accepted1) {
+        if (accepted) {
             SaveLoad.load();
-        } else {
-
         }
 
-        if (!accepted1) {
+        if (!accepted) {
             System.out.print("Wie viele Spieler sollen teilnehmen? [2-6]: ");
             do {
                 spielerzahl = IO.getInt();
@@ -310,7 +309,7 @@ public class Aktionen implements Serializable {
 
         }
 
-        if (!accepted1) {
+        if (!accepted) {
             spielstand(); // nachdem das feld eingerichtet ist, wird gespeichert
         }
     }
@@ -383,7 +382,7 @@ public class Aktionen implements Serializable {
                     System.out.print("Bitte w\u00E4hlen sie das Schiff mit dem sie schie\u00DFen wollen: ");
 
                     if (activePlayer.getIsComputer()) {
-                        int[] IDs = activePlayer.getSchiffe().getSchiffIDs(true,true);
+                        int[] IDs = activePlayer.getSchiffe().getSchiffIDs(true, true);
                         inputI = IDs[(int)(Math.random() * IDs.length)];    //random
                         System.out.println(inputI);
                     } else {
@@ -441,7 +440,7 @@ public class Aktionen implements Serializable {
             isValid = false;
 
             if (isComputer) {
-                check = getCoordsForKI();
+                check = getCoordsForKI(GameObjects.getSpieler().getSpielerByKey(0).getSpielfeld().size());
                 System.out.println(check);
             } else {
                 System.out.print("Position [z.B. A1 oder auch 1A" + (allowReset ? " oder 'reset'" : "") + "]: ");
@@ -497,11 +496,9 @@ public class Aktionen implements Serializable {
     }
 
 
-    public static String getCoordsForKI() {
+    public static String getCoordsForKI(int max) {
         String[] abc = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u"};
-        int max = getSpielfeldgroesse();
-        int min = 0;
-        String letter = abc[(int) Math.round(Math.random() * (max - min) + min)];
+        String letter = abc[(int) Math.round(Math.random() * max)];
         String number = "" + (int) (Math.random() * max + 1);
 
         return number + letter;
@@ -518,10 +515,6 @@ public class Aktionen implements Serializable {
         }
 
         return ausrichtung;
-    }
-
-    static int getSpielfeldgroesse() {
-        return spielfeldgroesse;
     }
 
     public static void spielstand() {
