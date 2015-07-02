@@ -1,9 +1,11 @@
 package net.white_it.ships.collections;
 
+import java.io.Serializable;
+
 import net.white_it.ships.exceptions.NoPlayerException;
 import net.white_it.ships.models.Spieler;
 
-public class Spielersammlung {
+public class Spielersammlung implements Serializable {
     private Spieler[] spieler;
     private int activePlayer = -1;
 

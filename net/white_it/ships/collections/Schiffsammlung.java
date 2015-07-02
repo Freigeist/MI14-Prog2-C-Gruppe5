@@ -1,8 +1,10 @@
 package net.white_it.ships.collections;
 
+import java.io.Serializable;
+
 import net.white_it.ships.models.Schiff;
 
-public class Schiffsammlung {
+public class Schiffsammlung implements Serializable {
     /**
      * Array aller Schiffe
      */

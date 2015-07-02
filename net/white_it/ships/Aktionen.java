@@ -1,149 +1,167 @@
 package net.white_it.ships;
 
+import java.io.Serializable;
+
 import net.white_it.ships.collections.GameObjects;
 import net.white_it.ships.collections.Schiffsammlung;
 import net.white_it.ships.collections.Spielersammlung;
 import net.white_it.ships.exceptions.AbortedByUserException;
 import net.white_it.ships.exceptions.NoValidCoordinateException;
 import net.white_it.ships.helper.IO;
+import net.white_it.ships.helper.SaveLoad;
 import net.white_it.ships.models.*;
 
-public class Aktionen {
+public class Aktionen implements Serializable {
     /**
      * hier werden spieleinstellungen vorgenommen
      *
      * @since 1.0
      */
     private static int spielfeldgroesse;
+    private static int spielerzahl;
+    private static boolean isComputer;
+    private static boolean accepted = false;
+    private static int Counter, anzahlUBoote, anzahlKorvetten, anzahlFregatten, anzahlZerstoerer;
+    private static String check;
 
     public static void prepareGame() {
-        System.out.print("Wie viele Spieler sollen teilnehmen? [2-6]: ");
-        int spielerzahl;
+        System.out.println("möchten Sie den letzten Spielstand laden? [j/n]");
+        String check1;
+        boolean accepted1 = false;
         do {
-            spielerzahl = IO.getInt();
-        } while (spielerzahl < 2 || spielerzahl > 6);
+            check1 = IO.getString();
+        } while (!check1.matches("^[jJnN]$"));
+        accepted1 = check1.equalsIgnoreCase("j");
 
-        System.out.print("Wie gro\u00DF soll das Spielfeld sein? [5-20]: ");
-        do {
-            spielfeldgroesse = IO.getInt();
-        } while (spielfeldgroesse < 5 || spielfeldgroesse > 20);
+        if (accepted1) {
+            SaveLoad.load();
+        } else {
 
-        int maxShips = Math.round(spielfeldgroesse / 3);
-        int maxUBoot = (int) Math.floor(spielfeldgroesse / UBoot.size);
-        int maxKorvette = (int) Math.floor(spielfeldgroesse / Korvette.size);
-        int maxFregatte = (int) Math.floor(spielfeldgroesse / Fregatte.size);
-        int maxZerstoerer = (int) Math.floor(spielfeldgroesse / Zerstoerer.size);
+        }
 
-        System.out.println("Es k\u00F6nnen max. " + maxShips + " gesetzt werden, bitte entscheiden sie welche:\n");
-
-        int Counter, anzahlUBoote, anzahlKorvetten, anzahlFregatten, anzahlZerstoerer;
-        String check;
-        boolean accepted = false;
-        do {
-            Counter = maxShips;
-            anzahlUBoote = 0;
-            anzahlKorvetten = 0;
-            anzahlFregatten = 0;
-            anzahlZerstoerer = 0;
-            if (Counter > 0) {
-                System.out.println("Ein UBoot ist 2 Felder lang, trifft ein Feld\n" +
-                        "und muss dann 1 Runde aussetzen.");
-                System.out.print("Wie viele UBoote sollen teilnehmen? [0-" + (Counter < maxUBoot ? Counter : maxUBoot) + "]: ");
-                do {
-                    anzahlUBoote = IO.getInt();
-                } while (anzahlUBoote > Counter || anzahlUBoote > maxUBoot || anzahlUBoote < 0);
-                Counter -= anzahlUBoote;
-            }
-
-            if (Counter > 0) {
-                System.out.println("\nEine Korvette ist 3 Felder lang, trifft ein Feld\n" +
-                        "und muss dann 1 Runde aussetzen.");
-                System.out.print("Wie viele Korvetten sollen teilnehmen? [0-" + (Counter < maxKorvette ? Counter : maxKorvette) + "]: ");
-                do {
-                    anzahlKorvetten = IO.getInt();
-                } while (anzahlKorvetten > Counter || anzahlKorvetten > maxKorvette || anzahlKorvetten < 0);
-                Counter -= anzahlKorvetten;
-            }
-
-            if (Counter > 0) {
-                System.out.println("\nEine Fregatte ist 4 Felder lang, trifft zwei Felder\n" +
-                        "nebeinander und muss dann 2 Runde aussetzen.");
-                System.out.print("Wie viele Fregatten sollen teilnehmen? [0-" + (Counter < maxFregatte ? Counter : maxFregatte) + "]: ");
-                do {
-                    anzahlFregatten = IO.getInt();
-                } while (anzahlFregatten > Counter || anzahlFregatten > maxFregatte || anzahlFregatten < 0);
-                Counter -= anzahlFregatten;
-            }
-
-            if (Counter > 0) {
-                System.out.println("\nEin Zerstoerer ist 5 Felder lang, trifft drei Felder\n" +
-                        "nebeinander und muss dann 3 Runde aussetzen.");
-                System.out.print("Wie viele Zerstoerer sollen teilnehmen? [0-" + (Counter < maxZerstoerer ? Counter : maxZerstoerer) + "]: ");
-                do {
-                    anzahlZerstoerer = IO.getInt();
-                } while (anzahlZerstoerer > Counter || anzahlZerstoerer > maxZerstoerer || anzahlZerstoerer < 0);
-                Counter -= anzahlZerstoerer;
-            }
-
-            if (Counter == maxShips) {
-                System.out.println("\n\nEs wurde keine Schiffe gew\u00E4hlt, die Auswahl wird wiederholt!\n");
-                accepted = false;
-            } else if (Counter > 0) {
-                System.out.print("Sie haben noch " + Counter + " von " + maxShips + "Schiffen \u00FCbrig,\n" +
-                        "deren Typen sie nicht gew\u00E4hlt haben, moechten sie wirklich fortfahren? [j/n]: ");
-                do {
-                    check = IO.getString();
-                } while (!check.matches("^[jJnN]$"));
-                accepted = check.equalsIgnoreCase("j");
-            } else {
-                accepted = true;
-            }
-        } while (!accepted);
-
-
-        System.out.println("Es werden " + spielerzahl + " Spieler auf Feldern von " +
-                spielfeldgroesse + "x" + spielfeldgroesse + " spielen.");
-        System.out.println("\nDabei werden Folgende Schiffe zum Einsatz kommen: ");
-        System.out.println("\tUBoote: " + anzahlUBoote);
-        System.out.println("\tKorvetten: " + anzahlKorvetten);
-        System.out.println("\tFregatten: " + anzahlFregatten);
-        System.out.println("\tZerstoerer: " + anzahlZerstoerer);
-
-        String name;
-        String isPcAbfrage;
-        boolean isComputer;
-        boolean isValid_test;
-        for (int i = 1; i <= spielerzahl; i++) {
-            System.out.println("Bitte geben sie den Namen f\u00FCr Spieler" + i + " ein.");
+        if (!accepted1) {
+            System.out.print("Wie viele Spieler sollen teilnehmen? [2-6]: ");
             do {
-                System.out.print("Name (min. 3 & max. 20 Zeichen): ");
-                name = IO.getString();
-            } while (name.length() < 3 || name.length() > 20);
-
-            System.out.println("Soll " + name + " ein Computer sein?");
+                spielerzahl = IO.getInt();
+            } while (spielerzahl < 2 || spielerzahl > 6);
 
             do {
-                System.out.print("J/N");
+                System.out.print("Wie gro\u00DF soll das Spielfeld sein? [5-20]: ");
+                spielfeldgroesse = IO.getInt();
+            } while (spielfeldgroesse < 5 || spielfeldgroesse > 20);
 
-                isPcAbfrage = IO.getString();
+            int maxShips = Math.round(spielfeldgroesse / 3);
+            int maxUBoot = (int) Math.floor(spielfeldgroesse / UBoot.size);
+            int maxKorvette = (int) Math.floor(spielfeldgroesse / Korvette.size);
+            int maxFregatte = (int) Math.floor(spielfeldgroesse / Fregatte.size);
+            int maxZerstoerer = (int) Math.floor(spielfeldgroesse / Zerstoerer.size);
 
-                if (isPcAbfrage.equalsIgnoreCase("j")) {
-                    System.out.println("Der Spieler " + name + " ist ein Computer.");
-                    isValid_test = true;
-                    isComputer = true;
-                } else if (isPcAbfrage.equalsIgnoreCase("n")) {
-                    System.out.println("Der Spieler " + name + " ist kein Computer.");
-                    isValid_test = true;
-                    isComputer = false;
-                } else {
-                    isValid_test = false;
-                    isComputer = false;
+            System.out.println("Es k\u00F6nnen max. " + maxShips + " gesetzt werden, bitte entscheiden sie welche:\n");
+            do {
+                Counter = maxShips;
+                anzahlUBoote = 0;
+                anzahlKorvetten = 0;
+                anzahlFregatten = 0;
+                anzahlZerstoerer = 0;
+                if (Counter > 0) {
+                    System.out.println("Ein UBoot ist 2 Felder lang, trifft ein Feld\n" +
+                            "und muss dann 1 Runde aussetzen.");
+                    System.out.print("Wie viele UBoote sollen teilnehmen? [0-" + (Counter < maxUBoot ? Counter : maxUBoot) + "]: ");
+                    do {
+                        anzahlUBoote = IO.getInt();
+                    } while (anzahlUBoote > Counter || anzahlUBoote > maxUBoot || anzahlUBoote < 0);
+                    Counter -= anzahlUBoote;
                 }
 
-            } while (!isValid_test);
+                if (Counter > 0) {
+                    System.out.println("\nEine Korvette ist 3 Felder lang, trifft ein Feld\n" +
+                            "und muss dann 1 Runde aussetzen.");
+                    System.out.print("Wie viele Korvetten sollen teilnehmen? [0-" + (Counter < maxKorvette ? Counter : maxKorvette) + "]: ");
+                    do {
+                        anzahlKorvetten = IO.getInt();
+                    } while (anzahlKorvetten > Counter || anzahlKorvetten > maxKorvette || anzahlKorvetten < 0);
+                    Counter -= anzahlKorvetten;
+                }
+
+                if (Counter > 0) {
+                    System.out.println("\nEine Fregatte ist 4 Felder lang, trifft zwei Felder\n" +
+                            "nebeinander und muss dann 2 Runde aussetzen.");
+                    System.out.print("Wie viele Fregatten sollen teilnehmen? [0-" + (Counter < maxFregatte ? Counter : maxFregatte) + "]: ");
+                    do {
+                        anzahlFregatten = IO.getInt();
+                    } while (anzahlFregatten > Counter || anzahlFregatten > maxFregatte || anzahlFregatten < 0);
+                    Counter -= anzahlFregatten;
+                }
+
+                if (Counter > 0) {
+                    System.out.println("\nEin Zerstoerer ist 5 Felder lang, trifft drei Felder\n" +
+                            "nebeinander und muss dann 3 Runde aussetzen.");
+                    System.out.print("Wie viele Zerstoerer sollen teilnehmen? [0-" + (Counter < maxZerstoerer ? Counter : maxZerstoerer) + "]: ");
+                    do {
+                        anzahlZerstoerer = IO.getInt();
+                    } while (anzahlZerstoerer > Counter || anzahlZerstoerer > maxZerstoerer || anzahlZerstoerer < 0);
+                    Counter -= anzahlZerstoerer;
+                }
+
+                if (Counter == maxShips) {
+                    System.out.println("\n\nEs wurde keine Schiffe gew\u00E4hlt, die Auswahl wird wiederholt!\n");
+                    accepted = false;
+                } else if (Counter > 0) {
+                    System.out.print("Sie haben noch " + Counter + " von " + maxShips + "Schiffen \u00FCbrig,\n" +
+                            "deren Typen sie nicht gew\u00E4hlt haben, moechten sie wirklich fortfahren? [j/n]: ");
+                    do {
+                        check = IO.getString();
+                    } while (!check.matches("^[jJnN]$"));
+                    accepted = check.equalsIgnoreCase("j");
+                } else {
+                    accepted = true;
+                }
+            } while (!accepted);
 
 
-            GameObjects.getSpieler().push(new Spieler(name, spielfeldgroesse, isComputer));
+            System.out.println("Es werden " + spielerzahl + " Spieler auf Feldern von " +
+                    spielfeldgroesse + "x" + spielfeldgroesse + " spielen.");
+            System.out.println("\nDabei werden Folgende Schiffe zum Einsatz kommen: ");
+            System.out.println("\tUBoote: " + anzahlUBoote);
+            System.out.println("\tKorvetten: " + anzahlKorvetten);
+            System.out.println("\tFregatten: " + anzahlFregatten);
+            System.out.println("\tZerstoerer: " + anzahlZerstoerer);
+
+            String name;
+            String isPcAbfrage;
+            boolean isValid_test;
+            for (int i = 1; i <= spielerzahl; i++) {
+                System.out.println("Bitte geben sie den Namen f\u00FCr Spieler" + i + " ein.");
+                do {
+                    System.out.print("Name (min. 3 & max. 20 Zeichen): ");
+                    name = IO.getString();
+                } while (name.length() < 3 || name.length() > 20);
+
+                System.out.println("Soll " + name + " ein Computer sein?");
+
+                do {
+                    System.out.print("J/N");
+
+                    isPcAbfrage = IO.getString();
+
+                    if (isPcAbfrage.equalsIgnoreCase("j")) {
+                        System.out.println("Der Spieler " + name + " ist ein Computer.");
+                        isValid_test = true;
+                        isComputer = true;
+                    } else if (isPcAbfrage.equalsIgnoreCase("n")) {
+                        System.out.println("Der Spieler " + name + " ist kein Computer.");
+                        isValid_test = true;
+                        isComputer = false;
+                    } else {
+                        isValid_test = false;
+                        isComputer = false;
+                    }
+
+                } while (!isValid_test);
+
+
+                GameObjects.getSpieler().push(new Spieler(name, spielfeldgroesse, isComputer));
+            }
         }
 
         System.out.println("\n\nNun folgt die Plazierung der Schiffe, bei der die Spieler nacheinander\n" +
@@ -154,6 +172,7 @@ public class Aktionen {
         Schiffsammlung schiffe;
         boolean isValid, isVertical;
         int[] coord = new int[0];
+        System.out.println(spielerzahl);
         for (int i = 0; i < spielerzahl; i++) {
             spieler = GameObjects.getSpieler().getSpielerByKey(i);
             schiffe = spieler.getSchiffe();
@@ -284,9 +303,15 @@ public class Aktionen {
                                 accepted = check.equalsIgnoreCase("n");
                             }
                         } while (!isValid);
+
                     }
                 }
             } while (!accepted);
+
+        }
+
+        if (!accepted1) {
+            spielstand(); // nachdem das feld eingerichtet ist, wird gespeichert
         }
     }
 
@@ -358,6 +383,7 @@ public class Aktionen {
                     System.out.print("Bitte w\u00E4hlen sie das Schiff mit dem sie schie\u00DFen wollen: ");
 
                     if (activePlayer.getIsComputer()) {
+
                         inputI = (int) (Math.random() * 6);    //random
                         System.out.println(inputI);
                     } else {
@@ -494,7 +520,24 @@ public class Aktionen {
         return ausrichtung;
     }
 
-    private static int getSpielfeldgroesse() {
+    static int getSpielfeldgroesse() {
         return spielfeldgroesse;
+    }
+
+    public static void spielstand() {
+        System.out.println("Möchten sie an dieser Stelle speichern? [j/n]");
+        String check;
+        boolean accepted;
+
+        do {
+            check = IO.getString();
+        } while (!check.matches("^[jJnN]$"));
+        accepted = check.equalsIgnoreCase("j");
+
+        if (accepted) {
+            SaveLoad.save(GameObjects.getSpieler());
+            System.out.println("Ihr Spielstand wurde abgespeichert");
+        }
+
     }
 }

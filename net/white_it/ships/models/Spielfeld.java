@@ -1,9 +1,11 @@
 package net.white_it.ships.models;
 
+import java.io.Serializable;
+
 import net.white_it.ships.collections.Schiffsammlung;
 import net.white_it.ships.exceptions.NoValidCoordinateException;
 
-public class Spielfeld {
+public class Spielfeld implements Serializable {
     /**
      * Koordinatensystem des Spielfeldes
      *

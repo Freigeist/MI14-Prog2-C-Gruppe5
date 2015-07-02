@@ -1,8 +1,10 @@
 package net.white_it.ships.models;
 
+import java.io.Serializable;
+
 import net.white_it.ships.collections.Schiffsammlung;
 
-public class Spieler {
+public class Spieler implements Serializable {
     /**
      * Name des Spielers
      *

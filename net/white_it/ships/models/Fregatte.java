@@ -1,6 +1,8 @@
 package net.white_it.ships.models;
 
-public class Fregatte extends Schiff {
+import java.io.Serializable;
+
+public class Fregatte extends Schiff implements Serializable {
 
     public final static int size = 4;
 

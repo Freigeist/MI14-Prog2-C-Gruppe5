@@ -1,6 +1,8 @@
 package net.white_it.ships.models;
 
-public abstract class Schiff {
+import java.io.Serializable;
+
+public abstract class Schiff implements Serializable {
 
     /**
      * Die Länge des Schiffes
