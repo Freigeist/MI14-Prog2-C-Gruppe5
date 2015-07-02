@@ -36,6 +36,7 @@ public class Aktionen implements Serializable {
 
         if (accepted) {
             SaveLoad.load();
+            return;
         }
 
         if (!accepted) {
@@ -306,12 +307,9 @@ public class Aktionen implements Serializable {
                     }
                 }
             } while (!accepted);
-
         }
 
-        if (!accepted) {
-            spielstand(); // nachdem das feld eingerichtet ist, wird gespeichert
-        }
+        spielstand(); // nachdem das feld eingerichtet ist, wird gespeichert
     }
 
     public static void gameLoop() {
@@ -352,8 +350,8 @@ public class Aktionen implements Serializable {
                     System.out.print("\nBitte w\u00E4hlen sie den Spieler den sie angreifen wollen: ");
 
                     if (activePlayer.getIsComputer()) {
-                        int[] IDs = spieler.getPlayerIDs(true,true);
-                        inputI = IDs[(int)(Math.random() * IDs.length)];    //random
+                        int[] IDs = spieler.getPlayerIDs(true, true);
+                        inputI = IDs[(int) (Math.random() * IDs.length)];    //random
                         System.out.println(inputI);
 
                     } else {
@@ -383,7 +381,7 @@ public class Aktionen implements Serializable {
 
                     if (activePlayer.getIsComputer()) {
                         int[] IDs = activePlayer.getSchiffe().getSchiffIDs(true, true);
-                        inputI = IDs[(int)(Math.random() * IDs.length)];    //random
+                        inputI = IDs[(int) (Math.random() * IDs.length)];    //random
                         System.out.println(inputI);
                     } else {
                         inputI = IO.getInt();
@@ -422,6 +420,8 @@ public class Aktionen implements Serializable {
                 System.out.println("\n'" + activePlayer.getName() + "' muss diese Runde aussetzen, da keine aktiven\n" +
                         "Schiffe vorhanden sind und nicht geschossen werden kann!\n");
             }
+            if(!activePlayer.getIsComputer())
+                spielstand();
         }
     }
 
@@ -441,7 +441,6 @@ public class Aktionen implements Serializable {
 
             if (isComputer) {
                 check = getCoordsForKI(GameObjects.getSpieler().getSpielerByKey(0).getSpielfeld().size());
-                System.out.println(check);
             } else {
                 System.out.print("Position [z.B. A1 oder auch 1A" + (allowReset ? " oder 'reset'" : "") + "]: ");
                 check = IO.getString();
@@ -477,7 +476,6 @@ public class Aktionen implements Serializable {
             isValid = false;
             if (isComputer) {
                 check = getAusrichtungForKI();
-                System.out.println(check);
             } else {
                 System.out.print("Ausrichtung [h/v" + (allowReset ? " oder 'reset'" : "") + "]: ");
                 check = IO.getString();
