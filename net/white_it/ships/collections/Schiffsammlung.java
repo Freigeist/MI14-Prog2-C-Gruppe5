@@ -84,6 +84,10 @@ public class Schiffsammlung implements Serializable {
         return ret;
     }
 
+    public int size(){
+        return this.schiffe.length;
+    }
+
     /**
      * Returns a string representation of the object. In general, the
      * {@code toString} method returns a string that
