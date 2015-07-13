@@ -174,10 +174,12 @@ public class Spielfeld implements Serializable {
                             break;
                         }
                     }
-                    if (hitShip)
-                        System.out.println("Ein Schiff wurde auf " + xyToCoord(i, y) + " getroffen!");
-                    else
-                        System.out.println("Der Schuss auf " + xyToCoord(i, y) + " ging ins Wasser.");
+                    if (!isGui) {
+                        if (hitShip)
+                            System.out.println("Ein Schiff wurde auf " + xyToCoord(i, y) + " getroffen!");
+                        else
+                            System.out.println("Der Schuss auf " + xyToCoord(i, y) + " ging ins Wasser.");
+                    }
                 }
             }
         }
