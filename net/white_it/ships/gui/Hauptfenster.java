@@ -2,6 +2,7 @@ package net.white_it.ships.gui;
 
 import net.white_it.ships.collections.Schiffsammlung;
 import net.white_it.ships.collections.Spielersammlung;
+import net.white_it.ships.helper.SettingsHelper;
 import net.white_it.ships.models.*;
 
 import java.awt.*;
@@ -21,6 +22,7 @@ public class Hauptfenster extends JFrame {
 
     private Integer intReturnValue = null;
     private String stringReturnValue = null;
+    private SettingsHelper settingsReturnValue = null;
 
     private boolean coordButtonsActive = true;
 
@@ -39,7 +41,7 @@ public class Hauptfenster extends JFrame {
         // Arten an Elementen die Benötigt werden
         JButton button;
         JTextField textField;
-        JEditorPane textArea;
+        //JEditorPane textArea;
         JLabel label;
         JCheckBox checkBox;
         JRadioButton radioButton;
@@ -236,13 +238,13 @@ public class Hauptfenster extends JFrame {
         this.add(label);
         this.gameSettingsObjects.put("labelErrorMsg", label);
 
-        button = new JButton();
+        /*button = new JButton();
         button.addActionListener(windowActionListenerInstance);
         button.setBounds(10, 550, 200, 40);
         button.setText("< Zur\u00FCck");
         button.setName("backToMainButton");
         this.add(button);
-        gameSettingsObjects.put("backToMainButton", button);
+        gameSettingsObjects.put("backToMainButton", button);*/
 
         button = new JButton();
         button.addActionListener(windowActionListenerInstance);
@@ -281,6 +283,62 @@ public class Hauptfenster extends JFrame {
             this.add(button);
             battlefieldObjects.put("buttonSelectI" + i, button);
         }
+
+        // Ja/Nein Buttons
+        button = new JButton();
+        button.addActionListener(windowActionListenerInstance);
+        button.setBounds(50, 230, 200, 20);
+        button.setText("Ja");
+        button.setName("buttonSelectJ");
+        button.setVisible(false);
+        this.add(button);
+        battlefieldObjects.put("buttonSelectJ", button);
+
+        button = new JButton();
+        button.addActionListener(windowActionListenerInstance);
+        button.setBounds(50, 260, 200, 20);
+        button.setText("Nein");
+        button.setName("buttonSelectN");
+        button.setVisible(false);
+        this.add(button);
+        battlefieldObjects.put("buttonSelectN", button);
+
+        button = new JButton();
+        button.addActionListener(windowActionListenerInstance);
+        button.setBounds(50, 310, 200, 20);
+        button.setText("Alles zur\u00FCcksetzen");
+        button.setName("buttonReset");
+        button.setVisible(false);
+        this.add(button);
+        battlefieldObjects.put("buttonReset", button);
+
+        button = new JButton();
+        button.addActionListener(windowActionListenerInstance);
+        button.setBounds(50, 310, 200, 20);
+        button.setText("Fortfahren");
+        button.setName("buttonContinue");
+        button.setVisible(false);
+        this.add(button);
+        battlefieldObjects.put("buttonContinue", button);
+
+        //Horizontal/Vertikal Buttons
+        button = new JButton();
+        button.addActionListener(windowActionListenerInstance);
+        button.setBounds(50, 230, 200, 20);
+        button.setText("Horizontal");
+        button.setName("buttonSelectH");
+        button.setVisible(false);
+        this.add(button);
+        battlefieldObjects.put("buttonSelectH", button);
+
+        button = new JButton();
+        button.addActionListener(windowActionListenerInstance);
+        button.setBounds(50, 260, 200, 20);
+        button.setText("Vertikal");
+        button.setName("buttonSelectV");
+        button.setVisible(false);
+        this.add(button);
+        battlefieldObjects.put("buttonSelectV", button);
 
         char c;
         for (int x = 1; x <= 20; x++) {
@@ -356,10 +414,11 @@ public class Hauptfenster extends JFrame {
     public void showBattlefield() {
         this.clearWindow();
         for (Map.Entry<String, JComponent> e : battlefieldObjects.entrySet()) {
-            if (!e.getKey().matches("^(coordButton|buttonSelect).*$"))
+            if (!e.getKey().matches("^(buttonSelect[VHJN]|buttonSelectI[0-5]|buttonReset|coordButton[A-Z][0-9]{1,2})$")) {
                 e.getValue().setVisible(true);
-            else
+            } else {
                 e.getValue().setVisible(false);
+            }
         }
         this.revalidate();
         this.repaint();
@@ -368,7 +427,7 @@ public class Hauptfenster extends JFrame {
 
     public void buildPlayerSelect(Spielersammlung spieler) {
         for (Map.Entry<String, JComponent> e : battlefieldObjects.entrySet()) {
-            if (!e.getKey().matches("^buttonSelect[NJVH]"))
+            if (e.getKey().matches("^buttonSelect[NJVH]$"))
                 e.getValue().setVisible(false);
         }
         JButton button;
@@ -378,6 +437,7 @@ public class Hauptfenster extends JFrame {
             if (i < spieler.size()) {
                 button.setVisible(true);
                 alive = spieler.getSpielerByKey(i).isAlive();
+                button.setText(i + " - " + spieler.getSpielerByKey(i).getName());
                 button.setEnabled(alive);
                 button.setForeground((alive ? Color.BLACK : Color.lightGray));
             } else {
@@ -390,7 +450,7 @@ public class Hauptfenster extends JFrame {
 
     public void buildShipSelect(Schiffsammlung schiffe) {
         for (Map.Entry<String, JComponent> e : battlefieldObjects.entrySet()) {
-            if (!e.getKey().matches("^buttonSelect[NJVH]"))
+            if (e.getKey().matches("^buttonSelect[NJVH]$"))
                 e.getValue().setVisible(false);
         }
         JButton button;
@@ -401,6 +461,7 @@ public class Hauptfenster extends JFrame {
                 button.setVisible(true);
                 alive = schiffe.getShipByKey(i).isAlive();
                 active = schiffe.getShipByKey(i).isActive();
+                button.setText(i + " - " + schiffe.getShipByKey(i).getIdentifier());
                 button.setEnabled(alive && active);
                 if (!alive) {
                     button.setForeground(Color.RED);
@@ -419,9 +480,9 @@ public class Hauptfenster extends JFrame {
 
     public void showVHSelect() {
         for (Map.Entry<String, JComponent> e : battlefieldObjects.entrySet()) {
-            if (!e.getKey().matches("^buttonSelect[NJI]"))
+            if (e.getKey().matches("^(buttonSelect[JN]|buttonSelectI[0-5])$"))
                 e.getValue().setVisible(false);
-            if (!e.getKey().matches("^buttonSelect[VH]"))
+            if (e.getKey().matches("^buttonSelect[VH]"))
                 e.getValue().setVisible(true);
         }
         this.revalidate();
@@ -430,9 +491,9 @@ public class Hauptfenster extends JFrame {
 
     public void showJNSelect() {
         for (Map.Entry<String, JComponent> e : battlefieldObjects.entrySet()) {
-            if (!e.getKey().matches("^buttonSelect[VHI]"))
+            if (e.getKey().matches("^(buttonSelect[VH]|buttonSelectI[0-5])$"))
                 e.getValue().setVisible(false);
-            if (!e.getKey().matches("^buttonSelect[JN]"))
+            if (e.getKey().matches("^buttonSelect[JN]$"))
                 e.getValue().setVisible(true);
         }
         this.revalidate();
@@ -441,9 +502,33 @@ public class Hauptfenster extends JFrame {
 
     public void hideSelects() {
         for (Map.Entry<String, JComponent> e : battlefieldObjects.entrySet()) {
-            if (!e.getKey().matches("^buttonSelect[VHSPJN]"))
+            if (e.getKey().matches("^(buttonSelect[VHJN]|buttonSelectI[0-5])$"))
                 e.getValue().setVisible(false);
         }
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void showResetButton(){
+        battlefieldObjects.get("buttonReset").setVisible(true);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void hideResetButton(){
+        battlefieldObjects.get("buttonReset").setVisible(false);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void showContinueButton(){
+        battlefieldObjects.get("buttonContinue").setVisible(true);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void hideContinueButton(){
+        battlefieldObjects.get("buttonContinue").setVisible(false);
         this.revalidate();
         this.repaint();
     }
@@ -464,6 +549,19 @@ public class Hauptfenster extends JFrame {
                 }
             }
         }
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void hideBattlefieldButtons() {
+        this.clearWindow();
+        for (Map.Entry<String, JComponent> e : battlefieldObjects.entrySet()) {
+            if (e.getKey().matches("^coordButton[A-Z][0-9]{1,2}$")) {
+                e.getValue().setVisible(false);
+            }
+        }
+        this.revalidate();
+        this.repaint();
     }
 
     public void updateInformationLabel(String current, String enemy, String nextJob) {
@@ -474,6 +572,8 @@ public class Hauptfenster extends JFrame {
                 "<br />" +
                 "Nächste Aktion:<br />" +
                 "<font color=\"#000099\">" + nextJob + "</font></html>");
+        this.revalidate();
+        this.repaint();
     }
 
     public Integer getIntReturnValue() {
@@ -496,6 +596,14 @@ public class Hauptfenster extends JFrame {
         this.stringReturnValue = stringReturnValue;
     }
 
+    public SettingsHelper getSettingsReturnValue() {
+        return settingsReturnValue;
+    }
+
+    public void enableCoordButtons(){
+        this.coordButtonsActive = true;
+    }
+
     private class WindowActionListener implements ActionListener { // listener klasse ist in der our frame klasse. so haben wir zugriff auf alle attribute
         @Override
         // dieser methoden rumpf wird ausgeführt sobald der aktion listener was erfasst
@@ -504,10 +612,10 @@ public class Hauptfenster extends JFrame {
             int p;
             switch (el.getName()) {
                 case "newGameButton": // Hier kommt der Name des Elements ins Spiel
-                    showGameSettings();
+                    setStringReturnValue("N");
                     break;
                 case "loadGameButton":
-                    // Do Stuff
+                    setStringReturnValue("J");
                     break;
                 case "buttonSelectI0":
                 case "buttonSelectI1":
@@ -539,19 +647,59 @@ public class Hauptfenster extends JFrame {
                         }
                     }
                     break;
-                case "backToMainButton":
-                    showMainWindow();
+                case "buttonReset":
+                    hideSelects();
+                    setStringReturnValue("reset");
                     break;
+                case "buttonContinue":
+                    setStringReturnValue("");
+                    hideContinueButton();
+                    break;
+                case "buttonSelectJ":
+                case "buttonSelectN":
+                case "buttonSelectH":
+                case "buttonSelectV":
+                    setStringReturnValue(el.getName().substring(12, 13));
+                    hideSelects();
+                    break;
+                /*case "backToMainButton":
+                    showMainWindow();
+                    break;*/
                 case "startGameButton":
-                    showBattlefield();
+                    int pCount = 2;
+                    for (int i = 2; i <= 6; i++) {
+                        if (((JRadioButton) gameSettingsObjects.get("radio" + i + "Player")).isSelected()) {
+                            pCount = i;
+                            break;
+                        }
+                    }
+
+                    int fieldSize, anzahlUBoote, anzahlFregatten, anzahlKorvetten, anzahlZerstoerer;
+                    String[] names = new String[pCount];
+                    boolean[] isBot = new boolean[pCount];
+
+                    fieldSize = Integer.parseInt(((JTextField) gameSettingsObjects.get("fieldSize")).getText());
+
+                    anzahlUBoote = Integer.parseInt(((JTextField) gameSettingsObjects.get("countUBoote")).getText());
+                    anzahlFregatten = Integer.parseInt(((JTextField) gameSettingsObjects.get("countFregatten")).getText());
+                    anzahlKorvetten = Integer.parseInt(((JTextField) gameSettingsObjects.get("countKorvetten")).getText());
+                    anzahlZerstoerer = Integer.parseInt(((JTextField) gameSettingsObjects.get("countZerstoerer")).getText());
+
+                    for (int i = 0; i < pCount; i++) {
+                        names[i] = ((JTextField) gameSettingsObjects.get("nameP" + (i + 1))).getText();
+                        isBot[i] = ((JCheckBox) gameSettingsObjects.get("isKIP" + (i + 1))).isSelected();
+                    }
+                    settingsReturnValue = new SettingsHelper(pCount, fieldSize, anzahlUBoote, anzahlKorvetten, anzahlFregatten, anzahlZerstoerer, names, isBot);
                     break;
                 case "coordButton":
                     JButton button = (JButton) el;
 
-                    // 'Missbrauch' des ToolTips zur Koordinatenübergabe
-                    int[] coords = Spielfeld.coordToXY(button.getToolTipText());
+                    if (coordButtonsActive) {
+                        // 'Missbrauch' des ToolTips zur Koordinatenübergabe
+                        setStringReturnValue(button.getToolTipText());
+                        coordButtonsActive = false;
+                    }
 
-                    // Do Stuff
                     break;
                 default:
                     System.err.println("(Button ohne Handler geklickt)");

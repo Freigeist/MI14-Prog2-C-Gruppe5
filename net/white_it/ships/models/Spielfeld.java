@@ -34,7 +34,7 @@ public class Spielfeld implements Serializable {
         this.schiffe = schiffe;
     }
 
-    public int size(){
+    public int size() {
         return this.coords.length;
     }
 
@@ -75,7 +75,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Prüft den aktuellen Status einer Koordinate
-     * <p/>
+     * <p>
      * -2 - Treffer ins Wasser
      * -1 - Nichts
      * 0  - Ein Schiff, ein S wird nur dem Spieler dem das Fled gehört gezeigt
@@ -139,6 +139,10 @@ public class Spielfeld implements Serializable {
     }
 
     public void fire(int x, int y, int schussbreite, boolean isVertical) {
+        fire(x, y, schussbreite, isVertical, false);
+    }
+
+    public void fire(int x, int y, int schussbreite, boolean isVertical, boolean isGui) {
         boolean hitShip = false;
         if (!isVertical) {
             for (int i = y; i < y + schussbreite; i++) {
@@ -151,10 +155,12 @@ public class Spielfeld implements Serializable {
                             break;
                         }
                     }
-                    if (hitShip)
-                        System.out.println("Ein Schiff wurde auf " + xyToCoord(x, i) + " getroffen!");
-                    else
-                        System.out.println("Der Schuss auf " + xyToCoord(x, i) + " ging ins Wasser.");
+                    if (!isGui) {
+                        if (hitShip)
+                            System.out.println("Ein Schiff wurde auf " + xyToCoord(x, i) + " getroffen!");
+                        else
+                            System.out.println("Der Schuss auf " + xyToCoord(x, i) + " ging ins Wasser.");
+                    }
                 }
             }
         } else {
